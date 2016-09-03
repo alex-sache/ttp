@@ -14,7 +14,7 @@ body {
 }
 
 a {
-    color: #6534ff;
+    color: #61bffc;
     text-decoration: none;
 }
 
@@ -133,7 +133,7 @@ h2 {font-size: 22px !important;}
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: #6534ff;
+    background-color: #61bffc;
     -webkit-transform: scaleX(0);
     -moz-transform: scaleX(0);
     -ms-transform: scaleX(0);
@@ -190,18 +190,18 @@ h2 {font-size: 22px !important;}
     transition: background-color 0.3s, border-color 0.3s;
 }
 .no-touch .cd-horizontal-timeline .events a:hover::after {
-    background-color: #6534ff;
-    border-color: #6534ff;
+    background-color: #61bffc;
+    border-color: #61bffc;
 }
 .cd-horizontal-timeline .events a.selected {
     pointer-events: none;
 }
 .cd-horizontal-timeline .events a.selected::after {
-    background-color: #6534ff;
-    border-color: #6534ff;
+    background-color: #61bffc;
+    border-color: #61bffc;
 }
 .cd-horizontal-timeline .events a.older-event::after {
-    border-color: #6534ff;
+    border-color: #61bffc;
 }
 @media only screen and (min-width: 1100px) {
     .cd-horizontal-timeline {
@@ -266,7 +266,7 @@ h2 {font-size: 22px !important;}
     right: 0;
 }
 .no-touch .cd-timeline-navigation a:hover {
-    border-color: #6534ff;
+    border-color: #61bffc;
 }
 .cd-timeline-navigation a.inactive {
     cursor: not-allowed;
