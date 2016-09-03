@@ -53,6 +53,13 @@ h2 {font-size: 22px !important;}
     z-index: 99999 !important;
 }
 
+.graph-section h2 {
+    border-bottom: 1px solid deepskyblue;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    margin: 0 auto;
+}
+
 /* Timeline section */
 .cd-horizontal-timeline {
     margin: 2em auto;
