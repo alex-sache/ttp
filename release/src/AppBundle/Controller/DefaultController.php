@@ -109,7 +109,7 @@ class DefaultController extends Controller
             $tags = $stmt->fetchAll();
 
             foreach ($tags as $tag) {
-                
+
             }
         }
     }
