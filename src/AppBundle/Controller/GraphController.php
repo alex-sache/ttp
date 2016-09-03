@@ -18,8 +18,17 @@ class GraphController extends Controller
         /** @var GraphService $graphService */
         $graphService = $this->get('app_bundle.service.graph');
 
-        $node = $graphService->createNode($type, $labels);
+        $node = $graphService->createNode($type, $label);
 
         return $node;
+    }
+
+    /**
+     * @Route("/get_events_from_date", name="Get events from date")
+     */
+    public function getEventsFromDateAction()
+    {
+        /** @var DataService $dataService */
+        $dataService = $this->get('app_bundle.service.data');
     }
 }
