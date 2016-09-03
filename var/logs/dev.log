@@ -1,1 +1,0 @@
-[2016-09-03 13:13:46] php.DEBUG: unlink(web/bundles/framework): No such file or directory {"type":2,"file":"/home/oana.buga/ttp/release/vendor/symfony/symfony/src/Symfony/Component/Filesystem/Filesystem.php","line":178,"level":28928} []
