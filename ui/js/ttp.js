@@ -22,7 +22,7 @@ var generateGraph = function (data, selector) {
     createGraph(data, selector);
 };
 
-var timelineNodeHandler = function (graph, idSelector) {
+var timelineNodeHandler = function (graph) {
   events.find("li").on("click", function (e) {
       var graphData = {
           nodes: [
@@ -148,9 +148,7 @@ jQuery(document).ready(function ($) {
             presentGraph = createGraph(graphData, 'daily-graph-present'),
             futureGraph = createGraph(graphData, 'daily-graph-future');
 
-        //timelineNodeHandler(pastGraph, 'daily-graph-past');
-        timelineNodeHandler(presentGraph, 'daily-graph-present');
-        //timelineNodeHandler(futureGraph, 'daily-graph-future');
+        timelineNodeHandler(presentGraph);
 
        /* ttpGraph.on('tap', 'node', {}, function(evt){
             var node = evt.cyTarget;

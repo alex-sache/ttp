@@ -60,6 +60,10 @@ h2 {font-size: 22px !important;}
     margin: 0 auto;
 }
 
+.no-data {
+    background: url("../img/no-data.png");
+}
+
 /* Timeline section */
 .cd-horizontal-timeline {
     margin: 2em auto;
