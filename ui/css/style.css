@@ -44,7 +44,7 @@ h2 {font-size: 22px !important;}
 }
 
 /** Graph section */
-#daily-graph {
+#daily-graph-present {
     height: 500px;
     width: 100%;
     position: absolute;

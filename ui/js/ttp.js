@@ -13,10 +13,13 @@ var getTimelineData = function () { //input data will be passed as param
     return $('#ttp-events');
 };
 
-var timelineNodeHandler = function (graph) {
+var timelineNodeHandler = function (graph, idSelector) {
   events.find("li").on("click", function (e) {
-      $("#daily-graph").fadeOut().remove();
-      $("#graph-wrapper").html('<div id="daily-graph"></div>');
+      var currentGraph = $("#" + idSelector);
+          graphParent  = currentGraph.parent();
+
+      currentGraph.fadeOut().remove();
+      graphParent.html('<div id="' + idSelector + '"></div>');
 
       var graphData = {
           nodes: [
@@ -38,13 +41,13 @@ var timelineNodeHandler = function (graph) {
               { data: { id: 'de', weight: 7, source: 'b', target: 'bd' } }
           ]
       };
-      createGraph(graphData);
+      createGraph(graphData, idSelector);
   });
 };
 
-var createGraph = function (graphData) {
+var createGraph = function (graphData, idSelector) {
     var cy = cytoscape({
-        container: document.getElementById('daily-graph'),
+        container: document.getElementById(idSelector),
 
         boxSelectionEnabled: false,
         autounselectify: true,
@@ -122,9 +125,9 @@ jQuery(document).ready(function ($) {
                 { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
             ]
         };
-        var ttpGraph = createGraph(graphData);
+        var ttpGraph = createGraph(graphData, 'daily-graph-present');
 
-        timelineNodeHandler(ttpGraph);
+        timelineNodeHandler(ttpGraph, 'daily-graph-present');
 
         ttpGraph.on('tap', 'node', {}, function(evt){
             var node = evt.cyTarget;
