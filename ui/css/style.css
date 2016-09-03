@@ -1,27 +1,8 @@
-body {
-    font: 14px helvetica neue, helvetica, arial, sans-serif;
-}
-
-#daily-graph {
-    height: 60%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: #ffffff;
-    border-bottom: 1px solid #cccccc;
-}
-
-/* --------------------------------
-
-Primary style
-
--------------------------------- */
 *, *::after, *::before {
     box-sizing: border-box;
 }
 
-/*html {
+html {
     font-size: 62.5%;
 }
 
@@ -35,13 +16,20 @@ body {
 a {
     color: #7b9d6f;
     text-decoration: none;
-}*/
+}
 
-/* --------------------------------
+/** Graph section */
+#daily-graph {
+    height: 60%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cccccc;
+}
 
-Main Components
-
--------------------------------- */
+/* Timeline section */
 .cd-horizontal-timeline {
     opacity: 0;
     margin: 2em auto;
