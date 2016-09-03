@@ -1,0 +1,13 @@
+body {
+    font: 14px helvetica neue, helvetica, arial, sans-serif;
+}
+
+#daily-graph {
+    height: 60%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cccccc;
+}
