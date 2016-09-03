@@ -11,12 +11,11 @@
     <body>
         <div class="container">
             <!--graph section-->
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
                     <div id="daily-graph"></div>
                 </div>
-            </div>
-
+            </div>-->
             <!--timeline section-->
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-xs-12">
@@ -25,9 +24,9 @@
                             <div class="events-wrapper">
                                 <div class="events">
                                     <ol>
-                                        <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
+                                        <li><a href="#0" data-date="16/01/2014">16 Jan</a></li>
                                         <li><a href="#0" data-date="28/02/2014">28 Feb</a></li>
-                                        <li><a href="#0" data-date="20/04/2014">20 Mar</a></li>
+                                        <li><a href="#0" data-date="20/04/2014" class="selected">20 Mar</a></li>
                                         <li><a href="#0" data-date="20/05/2014">20 May</a></li>
                                         <li><a href="#0" data-date="09/07/2014">09 Jul</a></li>
                                         <li><a href="#0" data-date="30/08/2014">30 Aug</a></li>
@@ -50,12 +49,8 @@
 
                         <div class="events-content">
                             <ol>
-                                <li class="selected" data-date="16/01/2014">
-                                    <h2>Horizontal Timeline</h2>
-                                    <em>January 16th, 2014</em>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
-                                    </p>
+                                <li data-date="16/01/2014">
+                                    <div id="daily-graph"></div>
                                 </li>
 
                                 <li data-date="28/02/2014">
@@ -66,7 +61,7 @@
                                     </p>
                                 </li>
 
-                                <li data-date="20/04/2014">
+                                <li data-date="20/04/2014" class="selected">
                                     <h2>Event title here</h2>
                                     <em>March 20th, 2014</em>
                                     <p>
