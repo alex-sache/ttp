@@ -13,14 +13,17 @@ var getTimelineData = function () { //input data will be passed as param
     return $('#ttp-events');
 };
 
+var generateGraph = function (data, selector) {
+    var presentGraphItem = $('#' + selector),
+        presentGraphParent = presentGraphItem.parent();
+
+    presentGraphItem.fadeOut().remove();
+    presentGraphParent.html('<div id="' + selector + '"></div>');
+    createGraph(data, selector);
+};
+
 var timelineNodeHandler = function (graph, idSelector) {
   events.find("li").on("click", function (e) {
-      var currentGraph = $("#" + idSelector);
-          graphParent  = currentGraph.parent();
-
-      currentGraph.fadeOut().remove();
-      graphParent.html('<div id="' + idSelector + '"></div>');
-
       var graphData = {
           nodes: [
               { data: { id: 'a' } },
@@ -41,7 +44,23 @@ var timelineNodeHandler = function (graph, idSelector) {
               { data: { id: 'de', weight: 7, source: 'b', target: 'bd' } }
           ]
       };
-      createGraph(graphData, idSelector);
+
+      //graph data must be taken  by timeline node
+
+      //1. regenerate current graph
+      generateGraph(graphData, 'daily-graph-present');
+
+      if ($(this).next().length) {
+          generateGraph(graphData, 'daily-graph-future');
+      } else {
+          $('#daily-graph-future').fadeOut();
+      }
+
+      if ($(this).prev().length) {
+          generateGraph(graphData, 'daily-graph-past');
+      } else {
+          $('#daily-graph-past').fadeOut();
+      }
   });
 };
 
@@ -129,9 +148,9 @@ jQuery(document).ready(function ($) {
             presentGraph = createGraph(graphData, 'daily-graph-present'),
             futureGraph = createGraph(graphData, 'daily-graph-future');
 
-        timelineNodeHandler(pastGraph, 'daily-graph-past');
+        //timelineNodeHandler(pastGraph, 'daily-graph-past');
         timelineNodeHandler(presentGraph, 'daily-graph-present');
-        timelineNodeHandler(futureGraph, 'daily-graph-future');
+        //timelineNodeHandler(futureGraph, 'daily-graph-future');
 
        /* ttpGraph.on('tap', 'node', {}, function(evt){
             var node = evt.cyTarget;
