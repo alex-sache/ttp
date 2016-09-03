@@ -125,13 +125,17 @@ jQuery(document).ready(function ($) {
                 { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
             ]
         };
-        var ttpGraph = createGraph(graphData, 'daily-graph-present');
+        var pastGraph = createGraph(graphData, 'daily-graph-past'),
+            presentGraph = createGraph(graphData, 'daily-graph-present'),
+            futureGraph = createGraph(graphData, 'daily-graph-future');
 
-        timelineNodeHandler(ttpGraph, 'daily-graph-present');
+        timelineNodeHandler(pastGraph, 'daily-graph-past');
+        timelineNodeHandler(presentGraph, 'daily-graph-present');
+        timelineNodeHandler(futureGraph, 'daily-graph-future');
 
-        ttpGraph.on('tap', 'node', {}, function(evt){
+       /* ttpGraph.on('tap', 'node', {}, function(evt){
             var node = evt.cyTarget;
             console.log( 'tapped ' + node.id() );
-        });
+        });*/
     });
 });
