@@ -60,7 +60,8 @@ var createGraph = function (graphData) {
                 'width': 4,
                 'line-color': '#ddd',
                 'target-arrow-color': '#ddd',
-                'curve-style': 'bezier'
+                'curve-style': 'bezier',
+                "content": 'data(label)'
             })
             .selector('.highlighted')
             .css({
@@ -112,9 +113,9 @@ jQuery(document).ready(function ($) {
             ],
 
             edges: [
-                { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
-                { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-                { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
+                { data: { id: 'a"e', weight: 1, source: 'a', target: 'c' } },
+                { data: { id: 'ab', weight: 3, source: 'a', target: 'b', label: 'autorotate (move my nodes)' }, classes: 'background' },
+                { data: { id: 'be', weight: 4, source: 'e', target: 'b' } },
                 { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
                 { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
                 { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
@@ -122,6 +123,12 @@ jQuery(document).ready(function ($) {
             ]
         };
         var ttpGraph = createGraph(graphData);
+
         timelineNodeHandler(ttpGraph);
+
+        ttpGraph.on('tap', 'node', {}, function(evt){
+            var node = evt.cyTarget;
+            console.log( 'tapped ' + node.id() );
+        });
     });
 });
