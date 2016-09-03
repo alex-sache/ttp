@@ -15,10 +15,8 @@ var getTimelineData = function () { //input data will be passed as param
 
 var timelineNodeHandler = function (graph) {
   events.find("li").on("click", function (e) {
-      console.log("you clicked " + $(this).attr("id"));
-      //todo: using this date get a json with the assocgraph
-      //graph.remove();
-      //console.log("L-am distrus");
+      $("#daily-graph").fadeOut().remove();
+      $("#graph-wrapper").html('<div id="daily-graph"></div>');
       createGraph();
   });
 };
