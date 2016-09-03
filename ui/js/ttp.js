@@ -46,6 +46,8 @@ var timelineNodeHandler = function (graph) {
       };
 
       //graph data must be taken  by timeline node
+      var currentTimelineNode = $(this);
+      //todo: get data with ajax call
 
       //1. regenerate current graph
       generateGraph(graphData, 'daily-graph-present');
