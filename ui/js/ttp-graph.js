@@ -16,7 +16,8 @@ $(function(){ // on dom ready
                 'text-outline-width': 2,
                 'text-outline-color': 'data(faveColor)',
                 'background-color': 'data(faveColor)',
-                'color': '#fff'
+                'color': '#fff',
+                'z-index': 99999
             })
             .selector(':selected')
             .css({

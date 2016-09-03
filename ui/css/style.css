@@ -27,6 +27,7 @@ h2 {font-size: 22px !important;}
     position: absolute;
     left: 0;
     top: 0;
+    z-index: 99999 !important;
 }
 
 /* Timeline section */
