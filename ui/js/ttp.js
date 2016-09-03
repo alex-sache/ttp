@@ -99,7 +99,7 @@ var createGraph = function (graphData, idSelector) {
         elements: graphData,
 
         layout: {
-            name: 'breadthfirst',
+            name: 'cose',
             directed: true,
             roots: '#a',
             padding: 10
@@ -138,7 +138,7 @@ jQuery(document).ready(function ($) {
 
             edges: [
                 { data: { id: 'a"e', weight: 1, source: 'a', target: 'c' } },
-                { data: { id: 'ab', weight: 3, source: 'a', target: 'b', label: 'autorotate (move my nodes)' }, classes: 'background' },
+                { data: { id: 'ab', weight: 3, source: 'a', target: 'b' }, classes: 'background' },
                 { data: { id: 'be', weight: 4, source: 'e', target: 'b' } },
                 { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
                 { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },

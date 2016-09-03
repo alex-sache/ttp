@@ -62,8 +62,10 @@ h2 {font-size: 22px !important;}
 }
 
 .graph-section h2 {
-    border-bottom: 1px solid deepskyblue;
-    padding-bottom: 5px;
+    width: auto;
+    background: #61bffc;
+    color: #ffffff;
+    padding: 5px;
     text-transform: uppercase;
     margin: 0 auto;
 }
