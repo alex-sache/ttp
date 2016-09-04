@@ -62,20 +62,38 @@ class DataService extends GraphService {
             }
         }
 
-        $graphDataJSON = '{ ' . PHP_EOL . 'nodes: [' . PHP_EOL;
+        $graphDataJSON = '{' . PHP_EOL . 'nodes: [' . PHP_EOL;
+
+        $nodeArr = [];
         foreach($graphData['nodes'] as $node) {
-            $graphDataJSON .= '{data: {id:' . '\'' . json_encode($node) .'\'' . ', ' . 'name:' . '\'' . $this->getNodeName(json_encode($node)) . '\'' .'}},' . PHP_EOL;
+            $nodeArr[] = ['data' => [
+                'id' => $node,
+                'name' => $this->getNodeName($node)
+            ]];
+            //$graphDataJSON .= '{data: {id:' . '\'' . json_encode($node) .'\'' . ', ' . 'name:' . '\'' . $this->getNodeName(json_encode($node)) . '\'' .'}},' . PHP_EOL;
         }
         $graphDataJSON .= '],' . PHP_EOL . 'edges: [' . PHP_EOL;
 
+        $edgeArr = [];
         foreach($graphData['edges'] as $edge) {
-            $graphDataJSON .= '{data: {id:' . '\'' . $edge['id'] . '\'' . ', weight:' . '\'' . $edge['weight'] . '\'' .
-                ', source:' . '\'' . $edge['source'] . '\'' . ', target:' . '\'' . $edge['target'] . '\'' . '}},' . PHP_EOL;
+            $edgeArr[] = ['data' => [
+                'id' => $edge['id'],
+                'source' => $edge['source'],
+                'target' => $edge['target']
+            ]];
+//            $graphDataJSON .= '{data: {id:' . '\'' . $edge['id'] . '\'' . ', weight:' . '\'' . $edge['weight'] . '\'' .
+//                ', source:' . '\'' . $edge['source'] . '\'' . ', target:' . '\'' . $edge['target'] . '\'' . '}},' . PHP_EOL;
         }
-        $graphDataJSON .= ']' . PHP_EOL .'}';
-        $graphDataJSON = str_replace("},". PHP_EOL ."]", "}" . PHP_EOL . "]", $graphDataJSON);
 
-        return $graphDataJSON;
+        //$graphDataJSON .= ']' . PHP_EOL .'}';
+        //$graphDataJSON = str_replace("},". PHP_EOL ."]", "}" . PHP_EOL . "]", $graphDataJSON);
+
+        $final = [
+            'nodes' => $nodeArr,
+            'edges' => $edgeArr
+        ];
+
+        return $final;
     }
 
     /**
