@@ -49,6 +49,9 @@ class GraphController extends Controller
     public function getEventsFromDateAction(Request $request)
     {
         $data = $request->get("date");
+
+        $data = str_replace(".", "/", $data);
+
         /** @var DataService $dataService */
         $dataService = $this->get('app_bundle.service.data');
 
