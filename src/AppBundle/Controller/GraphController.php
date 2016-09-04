@@ -54,9 +54,14 @@ class GraphController extends Controller
         $dataService = $this->get('app_bundle.service.data');
         $results = $dataService->getEventsFromDate($data);
 
-        $response = new Response();
+        /*$response = new Response();
         $response->setContent($results);
         $response->headers->set('Content-Type', 'application/json');
+
+        return $response;*/
+
+        $response = new JsonResponse();
+        $response->setData(json_decode($results, true));
 
         return $response;
     }
