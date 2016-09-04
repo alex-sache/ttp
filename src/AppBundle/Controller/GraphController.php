@@ -61,8 +61,8 @@ class GraphController extends Controller
         return $response;*/
 
         $response = new JsonResponse();
-        $response->setData(json_decode($results, true));
+        $response->setData($results);
 
-        return new JsonResponse(json_decode($results, true));
+        return $response;
     }
 }
