@@ -21,7 +21,7 @@ class DataService extends GraphService {
     {
         $client = $this->buildClient();
 
-        $query = "MATCH(t:EVENT_TIME)--(e)-[r*0..3]-(p) WHERE (t.DATE = " . $date .") RETURN t,e,p,r;";
+        $query = "MATCH(t:EVENT_TIME)--(e)-[r*0..3]-(p) WHERE (t.DATE = " . '\'' . $date . '\'' . ") RETURN t,e,p,r;";
 
         $result = $client->run($query);
         $records = $result->records();
@@ -64,7 +64,7 @@ class DataService extends GraphService {
 
         $graphDataJSON = '{ ' . PHP_EOL . 'nodes: [' . PHP_EOL;
         foreach($graphData['nodes'] as $node) {
-            $graphDataJSON .= '{data: {id:' . '\'' . json_encode($node) .'\'' . '}},' . PHP_EOL;
+            $graphDataJSON .= '{data: {id:' . '\'' . json_encode($node) .'\'' . ', ' . 'name:' . '\'' . $this->getNodeName(json_encode($node)) . '\'' .'}},' . PHP_EOL;
         }
         $graphDataJSON .= '],' . PHP_EOL . 'edges: [' . PHP_EOL;
 
@@ -73,11 +73,34 @@ class DataService extends GraphService {
                 ', source:' . '\'' . $edge['source'] . '\'' . ', target:' . '\'' . $edge['target'] . '\'' . '}},' . PHP_EOL;
         }
         $graphDataJSON .= ']' . PHP_EOL .'}';
+        $graphDataJSON = str_replace("},". PHP_EOL ."]", "}" . PHP_EOL . "]", $graphDataJSON);
 
         return $graphDataJSON;
     }
 
-    function ObjetToArray($adminBar){
+    /**
+     * @param $id
+     * @return string
+     */
+    private function getNodeName($id) {
+        $client = $this->buildClient();
+
+        $query = "MATCH (s) WHERE ID(s) = " . $id . " RETURN s.NAME";
+        $result = $client->run($query);
+
+        $responseObject = $result->getRecord();
+        $response = $this->ObjetToArray($responseObject);
+
+        $name = $response['values'][0];
+
+        return $name;
+    }
+
+    /**
+     * @param $adminBar
+     * @return array
+     */
+    private function ObjetToArray($adminBar){
 
         $reflector = new \ReflectionObject($adminBar);
         $nodes = $reflector->getProperties();
