@@ -17,6 +17,18 @@
             <call method="setGraphService">
                 <argument type="service" id="app_bundle.service.graph"/>
             </call>
+            <call method="setDatabaseHost">
+                <argument>%database_host%</argument>
+            </call>
+            <call method="setDatabaseName">
+                <argument>%database_name%</argument>
+            </call>
+            <call method="setDatabaseUser">
+                <argument>%database_user%</argument>
+            </call>
+            <call method="setDatabasePassword">
+                <argument>%database_password%</argument>
+            </call>
         </service>
         
         <service id="app_bundle.service.data" class="%app_bundle.service.data.class%">

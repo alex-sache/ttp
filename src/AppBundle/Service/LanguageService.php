@@ -24,6 +24,26 @@ class LanguageService
     protected $graphService;
 
     /**
+     * @var  string
+     */
+    protected $databaseName;
+
+    /**
+     * @var  string
+     */
+    protected $databaseUser;
+
+    /**
+     * @var  string
+     */
+    protected $databaseHost;
+
+    /**
+     * @var  string
+     */
+    protected $databasePassword;
+
+    /**
      * @return GraphService
      */
     public function getGraphService()
@@ -38,6 +58,71 @@ class LanguageService
     {
         $this->graphService = $graphService;
     }
+
+    /**
+     * @return string
+     */
+    public function getDatabaseName()
+    {
+        return $this->databaseName;
+    }
+
+    /**
+     * @param string $databaseName
+     */
+    public function setDatabaseName($databaseName)
+    {
+        $this->databaseName = $databaseName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabaseUser()
+    {
+        return $this->databaseUser;
+    }
+
+    /**
+     * @param string $databaseUser
+     */
+    public function setDatabaseUser($databaseUser)
+    {
+        $this->databaseUser = $databaseUser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabaseHost()
+    {
+        return $this->databaseHost;
+    }
+
+    /**
+     * @param string $databaseHost
+     */
+    public function setDatabaseHost($databaseHost)
+    {
+        $this->databaseHost = $databaseHost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabasePassword()
+    {
+        return $this->databasePassword;
+    }
+
+    /**
+     * @param string $databasePassword
+     */
+    public function setDatabasePassword($databasePassword)
+    {
+        $this->databasePassword = $databasePassword;
+    }
+
 
     /**
      * Basic classification algorithm to handle texts and classify its data
@@ -201,10 +286,10 @@ class LanguageService
      */
     public function createPDO()
     {
-        $dbhost = 'eis-sql8-dev';
-        $dbusername = 'laurentiu.codrea';
-        $dbpassword = 'parolalaurentiu';
-        $dbname = 'zzz';
+        $dbhost = $this->databaseHost;
+        $dbusername = $this->databaseUser;
+        $dbpassword = $this->databasePassword;
+        $dbname = $this->databaseName;
 
         $pdo = new \PDO("mysql:host=$dbhost;dbname=$dbname","$dbusername","$dbpassword");
         return $pdo;
