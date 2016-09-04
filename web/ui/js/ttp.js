@@ -152,6 +152,10 @@ jQuery(document).ready(function ($) {
             futureGraph = createGraph(graphData, 'daily-graph-future');
 
         timelineNodeHandler(presentGraph);
+        $.ajax({"url": "/get_events_from_date/04.09.2016"}).done(function (data) {
+            console.log(data);
+        });
+
 
         // var graphData;
         // $.getJSON("/get_events_from_date/04.09.2016", function (data) {
