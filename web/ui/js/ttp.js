@@ -150,8 +150,10 @@ jQuery(document).ready(function ($) {
         };*/
         var graphData;
         $.ajax("/get_events_from_date/04.09.2016", function (data) {
+            console.log(data);
             graphData = data;
         }).then(function () {
+            console.log("the end is ");
             var pastGraph = createGraph(graphData, 'daily-graph-past'),
                 presentGraph = createGraph(graphData, 'daily-graph-present'),
                 futureGraph = createGraph(graphData, 'daily-graph-future');
