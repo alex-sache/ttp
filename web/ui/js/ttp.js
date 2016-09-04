@@ -7,7 +7,11 @@ var data = ["01/09/2016", "03/09/2016", "04/09/2016", "05/09/2016", "25/09/2016"
 
 var getTimelineData = function () { //input data will be passed as param
     $.each(data, function (index, event) {
-        events.append('<li id="' + event + '"><a href="#0" data-date="' + event + '" ' + selectedClass + '>' + event + '</a></li>');
+        if (event == '04/09/2016') {
+            var selectedClassNow = selectedClass
+        }
+
+        events.append('<li id="' + event + '"><a href="#0" data-date="' + event + '" ' + selectedClassNow + '>' + event + '</a></li>');
         eventsContent.append('<li data-date="' + event + '"' + selectedClass + '>Lorem ' + event + '</li>');
         selectedClass = "";
     });
