@@ -131,7 +131,7 @@ jQuery(document).ready(function ($) {
         initTimeline($(this));
 
         $.ajax({"url": "/get_events_from_date/04.09.2016"}).done(function (graphData) {
-            //console.log(graphData);
+            console.log(graphData);
             // graphData = {
             //     nodes: [
             //         {data: {id:'54290', name:'I do stuff sunday'}},
