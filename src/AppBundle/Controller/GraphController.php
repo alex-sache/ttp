@@ -41,4 +41,35 @@ class GraphController extends Controller
 
         return true;
     }
+
+    /**
+     * @Route("/get_events_from_date/{date}", name="Get events from date")
+     */
+    public function getEventsFromDateAction(Request $request)
+    {
+        $dataRequest = $request->request->get("date");
+        $data = json_decode($dataRequest, true);
+
+        /** @var DataService $dataService */
+        $dataService = $this->get('app_bundle.service.data');
+
+        $results = $dataService->getEventsFromDate($data);
+
+        return $results;
+    }
+
+    /**
+     * @Route("/count_events_from_date/{date}", name="Count events from date")
+     */
+    public function countEventsFromDateAction(Request $request)
+    {
+        $dataRequest = $request->request->get("date");
+        $data = json_decode($dataRequest, true);
+
+        /** @var DataService $dataService */
+        $dataService = $this->get('app_bundle.service.data');
+
+        $results = $dataService->getEventsFromDate($data);
+        return new JsonResponse($results);
+    }
 }
