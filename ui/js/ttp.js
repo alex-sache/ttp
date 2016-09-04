@@ -78,7 +78,7 @@ var createGraph = function (graphData, idSelector) {
         style: cytoscape.stylesheet()
             .selector('node')
             .css({
-                'content': 'data(id)'
+                'content': 'data(name)'
             })
             .selector('edge')
             .css({
@@ -131,7 +131,7 @@ jQuery(document).ready(function ($) {
         initTimeline($(this));
         var graphData = {
             nodes: [
-                { data: { id: 'a' } },
+                { data: { id: 'a' , name: 'Jerry'} },
                 { data: { id: 'b' } },
                 { data: { id: 'c' } },
                 { data: { id: 'd' } },
@@ -159,4 +159,9 @@ jQuery(document).ready(function ($) {
             console.log( 'tapped ' + node.id() );
         });*/
     });
+
+    /*$.ajax({
+        dataType: "json",
+        url: "http://lc.test.stg1-dev.emag.network/get-data"
+    });*/
 });
