@@ -38,10 +38,6 @@ var timelineNodeHandler = function (graph) {
           generateGraph(graphData, 'daily-graph-present');
       });
 
-
-      //1. regenerate current graph
-      generateGraph(graphData, 'daily-graph-present');
-
       if ($(this).next().length) {
           $.getJSON("/get_events_from_date/03.09.2016", function (data) {
               graphData = data;
