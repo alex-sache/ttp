@@ -200,10 +200,10 @@ class LanguageService
      */
     public function createPDO()
     {
-        $dbhost = 'eis-sql8-dev';
-        $dbusername = 'laurentiu.codrea';
-        $dbpassword = 'parolalaurentiu';
-        $dbname = 'zzz';
+        $dbhost = '127.0.0.1';
+        $dbusername = 'root';
+        $dbpassword = 'Lemp1Hackaton2016';
+        $dbname = 'ttp';
 
         $pdo = new \PDO("mysql:host=$dbhost;dbname=$dbname","$dbusername","$dbpassword");
         return $pdo;
