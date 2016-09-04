@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
             ]
         };*/
         var graphData;
-        $.ajax("/get_events_from_date/04.09.2016", function (data) {
+        $.getJSON("/get_events_from_date/04.09.2016", function (data) {
             console.log(data);
             graphData = data;
         }).then(function () {
