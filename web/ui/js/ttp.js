@@ -32,14 +32,18 @@ var timelineNodeHandler = function (graph) {
       var currentTimelineNode = $(this),
           currentDate = currentTimelineNode.attr('id');
 
-      $.getJSON("/get_events_from_date/04.09.2016", function (data) {
+      currentDate = currentDate.replace("/", ".");
+
+      $.getJSON("/get_events_from_date/" + currentDate, function (data) {
           graphData = data;
       }).then(function () {
           generateGraph(graphData, 'daily-graph-present');
       });
 
       if ($(this).next().length) {
-          $.getJSON("/get_events_from_date/03.09.2016", function (data) {
+          currentDate = $(this).next().attr('id');
+          currentDate = currentDate.replace("/", ".");
+          $.getJSON("/get_events_from_date/" + currentDate, function (data) {
               graphData = data;
           }).then(function () {
               generateGraph(graphData, 'daily-graph-future');
@@ -49,7 +53,10 @@ var timelineNodeHandler = function (graph) {
       }
 
       if ($(this).prev().length) {
-          $.getJSON("/get_events_from_date/03.09.2016", function (data) {
+          currentDate = $(this).prev().attr('id');
+          currentDate = currentDate.replace("/", ".");
+
+          $.getJSON("/get_events_from_date/" + currentDate, function (data) {
               graphData = data;
           }).then(function () {
               generateGraph(graphData, 'daily-graph-past');
