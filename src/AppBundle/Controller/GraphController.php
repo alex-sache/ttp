@@ -48,8 +48,8 @@ class GraphController extends Controller
      */
     public function getEventsFromDateAction(Request $request)
     {
-        $dataRequest = $request->request->get("date");
-        $data = json_decode($dataRequest, true);
+        $data = $request->request->get("date");
+        //$data = json_decode($dataRequest, true);
 
         /** @var DataService $dataService */
         $dataService = $this->get('app_bundle.service.data');
