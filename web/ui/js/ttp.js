@@ -132,24 +132,24 @@ jQuery(document).ready(function ($) {
 
         $.ajax({"url": "/get_events_from_date/04.09.2016"}).done(function (graphData) {
             //console.log(graphData);
-            graphData = {
-                nodes: [
-                    {data: {id:'54290', name:'I do stuff sunday'}},
-                    {data: {id:'54282', name:'Alex'}},
-                    {data: {id:'54288', name:'I do stuff with Adi saturday'}},
-                    {data: {id:'54292', name:'Day'}},
-                    {data: {id:'54286', name:'stuff'}},
-                    {data: {id:'54284', name:'Adi'}}
-                ],
-                edges: [
-                    {data: {id:'970', weight:'20', source:'54290', target:'54282'}},
-                    {data: {id:'966', weight:'20', source:'54288', target:'54282'}},
-                    {data: {id:'969', weight:'20', source:'54288', target:'54292'}},
-                    {data: {id:'967', weight:'20', source:'54282', target:'54286'}},
-                    {data: {id:'968', weight:'20', source:'54284', target:'54286'}},
-                    {data: {id:'971', weight:'20', source:'54282', target:'54286'}}
-                ]
-            };
+            // graphData = {
+            //     nodes: [
+            //         {data: {id:'54290', name:'I do stuff sunday'}},
+            //         {data: {id:'54282', name:'Alex'}},
+            //         {data: {id:'54288', name:'I do stuff with Adi saturday'}},
+            //         {data: {id:'54292', name:'Day'}},
+            //         {data: {id:'54286', name:'stuff'}},
+            //         {data: {id:'54284', name:'Adi'}}
+            //     ],
+            //     edges: [
+            //         {data: {id:'970', weight:'20', source:'54290', target:'54282'}},
+            //         {data: {id:'966', weight:'20', source:'54288', target:'54282'}},
+            //         {data: {id:'969', weight:'20', source:'54288', target:'54292'}},
+            //         {data: {id:'967', weight:'20', source:'54282', target:'54286'}},
+            //         {data: {id:'968', weight:'20', source:'54284', target:'54286'}},
+            //         {data: {id:'971', weight:'20', source:'54282', target:'54286'}}
+            //     ]
+            // };
 
             var pastGraph = createGraph(graphData, 'daily-graph-past'),
                 presentGraph = createGraph(graphData, 'daily-graph-present'),
