@@ -38,7 +38,7 @@ class GraphService
     protected function buildClient()
     {
         $client = ClientBuilder::create()
-            ->addConnection($this->neo4jConnection, $this->neo4jUri)
+            ->addConnection('default', 'http://neo4j:parolaneo4j@46.101.106.91:7474')
             ->build();
 
         return $client;
