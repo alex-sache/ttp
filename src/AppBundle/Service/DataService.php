@@ -80,7 +80,7 @@ class DataService extends GraphService {
                 'id' => $edge['id'],
                 'source' => $edge['source'],
                 'target' => $edge['target'],
-                'label'  => $edge['label']
+                'label'  => !in_array($edge['label'], ['EVENT_HAS', 'EVENT_HAPPENS']) ? $edge['label'] : ''
             ]];
 //            $graphDataJSON .= '{data: {id:' . '\'' . $edge['id'] . '\'' . ', weight:' . '\'' . $edge['weight'] . '\'' .
 //                ', source:' . '\'' . $edge['source'] . '\'' . ', target:' . '\'' . $edge['target'] . '\'' . '}},' . PHP_EOL;
