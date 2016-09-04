@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="app_bundle.service.graph.class">AppBundle\Service\GraphService</parameter>
         <parameter key="app_bundle.service.language.class">AppBundle\Service\LanguageService</parameter>
+        <parameter key="app_bundle.service.data.class">AppBundle\Service\DataService</parameter>
     </parameters>
 
     <services>
@@ -17,6 +18,9 @@
                 <argument type="service" id="app_bundle.service.graph"/>
             </call>
         </service>
+        
+        <service id="app_bundle.service.data" class="%app_bundle.service.data.class%">
+        </service>        
     </services>
 </container>
 
