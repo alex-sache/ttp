@@ -71,9 +71,11 @@ class LanguageService
                 $date = date('Y-m-d H:i:s',strtotime("next" . $word));
                 $this->graphService->createNode('Date', [ 'name' => $date ]);
                 $lastNode['labelKey'] = 'name';
-                $lastNode['labelValue'] = $lastNode['labels']['name'];
+                $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
                 $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on);
+
+                continue;
             }
 
             if ($word == 'on') {
@@ -87,6 +89,8 @@ class LanguageService
             if (!empty($at) && isset($date)) {
                 $this->graphService->createNode('Location', [ 'name' => $word ]);
                 $this->graphService->createRelationship(['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], ['labelKey' => 'name', 'labelValue' => $word, 'type' => 'Location'], $at);
+
+                continue;
             }
 
             if (count($tags) == 1 && $tags['0']['0'] == 'NP') {
@@ -96,7 +100,6 @@ class LanguageService
                         'name' => $word
                     ];
                 $this->graphService->createNode($firstNode['type'], $firstNode['labels']);
-
                 continue;
             }
 
@@ -104,8 +107,6 @@ class LanguageService
                 if (in_array($tag['0'], $this->verbsTag)) {
                     if (!empty($firstNode) && !empty($lastNode)) {
                         $this->graphService->createRelationship($firstNode, $lastNode, $word);
-                        $d = json_encode($pendingAction . 'asdas');
-                        var_dump($d);
                     } else {
                         $pendingAction = $word;
                     }
