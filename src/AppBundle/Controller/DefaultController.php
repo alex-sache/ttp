@@ -23,7 +23,7 @@ class DefaultController extends Controller
             $languageService->dataClassification($request->request->get('info'));
         }
 
-        return $this->redirect('/ui/', 200);
+        return $this->redirect('/ui/', 301);
     }
 
     /**
