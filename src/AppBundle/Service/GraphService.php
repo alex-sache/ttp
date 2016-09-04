@@ -10,7 +10,7 @@ class GraphService
      * @return \GraphAware\Neo4j\Client\Client
      */
     protected function buildClient()
-    {
+    {die;
         $client = ClientBuilder::create()
             ->addConnection('default', 'http://neo4j:parolaneo4j@46.101.106.91:7474')
             ->build();
