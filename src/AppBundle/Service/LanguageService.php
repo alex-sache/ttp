@@ -9,11 +9,14 @@
 namespace AppBundle\Service;
 
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 class LanguageService
 {
 
     protected $nounsTag = array('NN','NNS','NP','NPS');
     protected $verbsTag = array('VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ');
+    protected $daysOfTheWeek = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
 
     /**
      * @var GraphService
@@ -49,6 +52,9 @@ class LanguageService
         $firstNode = [];
         $lastNode = [];
         $pendingAction = '';
+        $at = '';
+        $on = '';
+        $date = '';
         foreach ($words as $word) {
             $sql = "SELECT d.tag
                       FROM lexic l
@@ -60,6 +66,28 @@ class LanguageService
             $stmt->bindParam(':tag', $word);
             $stmt->execute();
             $tags = $stmt->fetchAll(\PDO::FETCH_NUM);
+
+            if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
+                $date = date('Y-m-d H:i:s',strtotime("next" . $word));
+                $this->graphService->createNode('Date', [ 'name' => $date ]);
+                $lastNode['labelKey'] = 'name';
+                $lastNode['labelValue'] = $lastNode['labels']['name'];
+                $lastNode['type'] = 'Activity';
+                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on);
+            }
+
+            if ($word == 'on') {
+                $on = $word;
+            }
+
+            if ($word == 'at') {
+                $at = $word;
+            }
+
+            if (!empty($at) && isset($date)) {
+                $this->graphService->createNode('Location', [ 'name' => $word ]);
+                $this->graphService->createRelationship(['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], ['labelKey' => 'name', 'labelValue' => $word, 'type' => 'Location'], $at);
+            }
 
             if (count($tags) == 1 && $tags['0']['0'] == 'NP') {
                 $firstNode['type'] = 'Person';
@@ -162,7 +190,7 @@ class LanguageService
             fclose($file);
         }
 
-        return new RedirectResponse($this->generateUrl('plan'));
+        return true;
     }
 
     /**
