@@ -6,6 +6,7 @@ use AppBundle\Service\GraphService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class GraphController extends Controller
@@ -55,6 +56,7 @@ class GraphController extends Controller
 
         $results = $dataService->getEventsFromDate($data);
 
-        return $results;
+        return new Response($results);
+
     }
 }
