@@ -129,9 +129,12 @@ var createGraph = function (graphData, idSelector) {
 jQuery(document).ready(function ($) {
     getTimelineData().promise().done(function () {
         initTimeline($(this));
-
-        $.ajax({"url": "/get_events_from_date/04.09.2016"}).done(function (data) {
+        var graphData;
+        $.getJSON({"url": "/get_events_from_date/04.09.2016"}, function (data) {
+            graphData = data;
             console.log(data);
+        }).then(function () {
+            console.log(graphData);
             // graphData = {
             //     nodes: [
             //         {data: {id:'54290', name:'I do stuff sunday'}},
