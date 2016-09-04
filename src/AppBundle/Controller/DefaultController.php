@@ -14,7 +14,7 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function planAction(Request $request)
+    public function homeAction(Request $request)
     {
         return $this->redirect('/ui/', 301);
     }
