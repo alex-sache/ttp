@@ -11,16 +11,35 @@ use Symfony\Component\HttpFoundation\Request;
 class GraphController extends Controller
 {
     /**
-     * @Route("/create_node", name="Create Node")
+     * @Route("/create_node/{node}", name="Create Node")
      */
-    public function createNodeAction($type, $label)
+    public function createNodeAction(Request $request)
     {
+        $nodeRequest = $request->request->get("node");
+        $node = json_decode($nodeRequest, true);
+
         /** @var GraphService $graphService */
         $graphService = $this->get('app_bundle.service.graph');
 
-        $node = $graphService->createNode($type, $label);
+        $graphService->createNode($node['type'], $node['labels']);
 
-        return $node;
+        return true;
+    }
+
+    /**
+     * @Route("/create_relationship/{relationship}", name="Create Relationship")
+     */
+    public function createRelationship(Request $request)
+    {
+        $relationshipRequest = $request->request->get("relationship");
+        $relationship = json_decode($relationshipRequest, true);
+
+        /** @var GraphService $graphService */
+        $graphService = $this->get('app_bundle.service.graph');
+
+        $graphService->createNode($relationship['nodeSource'], $relationship['nodeDestination'], $relationship['relType']);
+
+        return true;
     }
 
     /**
