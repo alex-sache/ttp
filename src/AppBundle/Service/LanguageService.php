@@ -68,12 +68,14 @@ class LanguageService
             $tags = $stmt->fetchAll(\PDO::FETCH_NUM);
 
             if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
-                $date = date('Y-m-d H:i:s',strtotime("next" . $word));
-                $this->graphService->createNode('Date', [ 'name' => $date ]);
+                $date = new \DateTime();
+                $date->modify('next ' . $word);
+                $date->format('d.m.Y');
+                $this->graphService->createNode('Date', [ 'DATE' => $date, 'name' => $date]);
                 $lastNode['labelKey'] = 'name';
                 $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
-                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on);
+                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], 'EVENT_HAPPENS');
 
                 continue;
             }
