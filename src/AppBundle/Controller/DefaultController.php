@@ -23,7 +23,7 @@ class DefaultController extends Controller
             $languageService->dataClassification($request->request->get('info'));
         }
 
-        return $this->render('default/plan.html.twig');
+        return $this->redirect('/ui/', 200);
     }
 
     /**
