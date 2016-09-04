@@ -130,7 +130,7 @@ jQuery(document).ready(function ($) {
     getTimelineData().promise().done(function () {
         initTimeline($(this));
         var graphData;
-        $.getJSON({"url": "/get_events_from_date/04.09.2016"}, function (data) {
+        $.getJSON("/get_events_from_date/04.09.2016", function (data) {
             graphData = data;
             console.log(data);
         }).then(function () {
