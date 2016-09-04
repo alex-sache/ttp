@@ -131,6 +131,7 @@ var createGraph = function (graphData, idSelector) {
 jQuery(document).ready(function ($) {
     getTimelineData().promise().done(function () {
         initTimeline($(this));
+
         var graphData;
         $.getJSON("/get_events_from_date/04.09.2016", function (data) {
             graphData = data;
@@ -141,29 +142,5 @@ jQuery(document).ready(function ($) {
 
             timelineNodeHandler(presentGraph);
         });
-
-
-        // var graphData;
-        // $.getJSON("/get_events_from_date/04.09.2016", function (data) {
-        //     console.log(data);
-        //     graphData = data;
-        // }).then(function () {
-        //     console.log("the end is ");
-        //     var pastGraph = createGraph(graphData, 'daily-graph-past'),
-        //         presentGraph = createGraph(graphData, 'daily-graph-present'),
-        //         futureGraph = createGraph(graphData, 'daily-graph-future');
-        //
-        //     timelineNodeHandler(presentGraph);
-        // });
-
-       /* ttpGraph.on('tap', 'node', {}, function(evt){
-            var node = evt.cyTarget;
-            console.log( 'tapped ' + node.id() );
-        });*/
     });
-
-    /*$.ajax({
-        dataType: "json",
-        url: "http://lc.test.stg1-dev.emag.network/get-data"
-    });*/
 });
