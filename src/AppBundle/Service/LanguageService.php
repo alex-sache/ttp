@@ -74,7 +74,7 @@ class LanguageService
                 $lastNode['labelKey'] = 'name';
                 $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
-                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date->format('d.m.Y'), 'type'=>'Date'], 'EVENT_HAPPENS');
+                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $word, 'type'=>'Date'], 'EVENT_HAPPENS');
 
                 continue;
             }
