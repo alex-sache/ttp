@@ -29,7 +29,17 @@
         "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
+        "bad-perm-files": [
+            "find . ! -perm -g=w -not -iwholename '*.git*' -print0 | xargs --no-run-if-empty --null echo"
+        ],
+        "bad-perm-users": [
+            "find . ! -perm -g=w -not -iwholename '*.git*' -print0 | xargs --no-run-if-empty --null stat -c %U | sort | uniq"
+        ],
+        "fix-perms": [
+            "find . ! -perm -g=w -uid `id -u` -not -iwholename '*.git*' -print0 | xargs --null --no-run-if-empty chmod g+w"
+        ],
         "post-install-cmd": [
+            "composer fix-perms",
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
@@ -38,6 +48,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "post-update-cmd": [
+            "composer fix-perms",
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
