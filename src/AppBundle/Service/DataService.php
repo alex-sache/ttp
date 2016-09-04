@@ -96,6 +96,28 @@ class DataService extends GraphService {
         return $final;
     }
 
+
+    /**
+     * @param $date
+     * @return String
+     */
+    public function countEventsFromDate($date = '')
+    {
+        $client = $this->buildClient();
+
+        if ($date && preg_match()) {
+            $query = "MATCH(t:EVENT_TIME)--(e) WHERE (t.DATE = '{date}') RETURN t.DATE as date, count(DISTINCT e) as nr;";
+            $parameters = ['date' => $date];
+            $result = $client->run($query, $parameters);
+
+        } else {
+            $query = "MATCH(t:EVENT_TIME)--(e) RETURN t.DATE, count(DISTINCT e);";
+            $result = $client->run($query);
+        }
+        $records = $result->records();
+        return $records;
+    }
+
     /**
      * @param $id
      * @return string
