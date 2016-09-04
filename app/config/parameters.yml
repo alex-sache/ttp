@@ -10,5 +10,3 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
-    neo4j_connection: 'default'
-    neo4j_uri: 'http://neo4j:parolaneo4j@46.101.106.91:7474'
