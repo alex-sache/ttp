@@ -13,7 +13,7 @@ var getTimelineData = function () { //input data will be passed as param
 
         events.append('<li id="' + event + '"><a href="#0" data-date="' + event + '" ' + selectedClassNow + '>' + event + '</a></li>');
         eventsContent.append('<li data-date="' + event + '"' + selectedClass + '>Lorem ' + event + '</li>');
-        selectedClass = "";
+        selectedClassNow = "";
     });
 
     return $('#ttp-events');
