@@ -26,30 +26,18 @@ var generateGraph = function (data, selector) {
 
 var timelineNodeHandler = function (graph) {
   events.find("li").on("click", function (e) {
-      var graphData = {
-          nodes: [
-              { data: { id: 'a' } },
-              { data: { id: 'b' } },
-              { data: { id: 'c' } },
-              { data: { id: 'd' } },
-              { data: { id: 'e' } }
-          ],
-
-          edges: [
-              { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
-              { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-              { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-              { data: { id: 'bc', weight: 5, source: 'e', target: 'c' } },
-              { data: { id: 'ce', weight: 10, source: 'a', target: 'e' } },
-              { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-              { data: { id: 'de', weight: 7, source: 'd', target: 'b' } },
-              { data: { id: 'de', weight: 7, source: 'b', target: 'bd' } }
-          ]
-      };
+      var graphData;
 
       //graph data must be taken  by timeline node
-      var currentTimelineNode = $(this);
-      //todo: get data with ajax call
+      var currentTimelineNode = $(this),
+          currentDate = currentTimelineNode.attr('id');
+
+      $.getJSON("/get_events_from_date/04.09.2016", function (data) {
+          graphData = data;
+      }).then(function () {
+          generateGraph(graphData, 'daily-graph-present');
+      });
+
 
       //1. regenerate current graph
       generateGraph(graphData, 'daily-graph-present');
