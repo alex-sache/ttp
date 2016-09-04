@@ -53,45 +53,60 @@ class LanguageService
             $sql = "SELECT d.tag
                       FROM lexic l
                         JOIN dictionary_to_lexic dtl ON l.id = dtl.word_id
-                        JOIN dictionary d on dtl.tag_id = d.id";
+                        JOIN dictionary d on dtl.tag_id = d.id
+                      WHERE l.word = :tag
+                      ORDER BY d.tag DESC";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':tag', $words);
+            $stmt->bindParam(':tag', $word);
             $stmt->execute();
-            $tags = $stmt->fetchAll();
+            $tags = $stmt->fetchAll(\PDO::FETCH_NUM);
+
+            if (count($tags) == 1 && $tags['0']['0'] == 'NP') {
+                $firstNode['type'] = 'Person';
+                $firstNode['labels'] =
+                    [
+                        'name' => $word
+                    ];
+                $this->graphService->createNode($firstNode['type'], $firstNode['labels']);
+
+                continue;
+            }
 
             foreach ($tags as $tag) {
-                if (in_array($tag, $this->nounsTag)) {
-                    if (empty($firstNode)) {
-                        $firstNode['type'] = 'Person';
-                        $firstNode['labels'] =
-                            [
-                                'name' => 'I'
-                            ];
-                        $this->graphService->createNode($firstNode['type'], $firstNode['labels']);
-                    } {
-                        $lastNode['type'] = 'Action';
+                if (in_array($tag['0'], $this->verbsTag)) {
+                    if (!empty($firstNode) && !empty($lastNode)) {
+                        $this->graphService->createRelationship($firstNode, $lastNode, $word);
+                        $d = json_encode($pendingAction . 'asdas');
+                        var_dump($d);
+                    } else {
+                        $pendingAction = $word;
+                    }
+                    continue 2;
+
+                } elseif (in_array($tag['0'], $this->nounsTag)) {
+                        $lastNode['type'] = 'Activity';
                         $lastNode['labels'] =
                             [
                                 'name' => $word
                             ];
                         $this->graphService->createNode($lastNode['type'], $lastNode['labels']);
                         if (!empty ($pendingAction)) {
+                            $firstNode['labelKey'] = 'name';
+                            $firstNode['labelValue'] = $firstNode['labels']['name'];
+                            $lastNode['labelKey'] = 'name';
+                            $lastNode['labelValue'] = $lastNode['labels']['name'];
                             $this->graphService->createRelationship($firstNode, $lastNode, $pendingAction);
                             $firstNode = $lastNode;
                             $lastNode = [];
+                            $pendingAction = '';
                         }
-                    }
-                } elseif (in_array($tag, $this->verbsTag)) {
-                    if (!empty($firstNode) && !empty($lastNode)) {
-                        $this->graphService->createRelationship($firstNode, $lastNode, $word);
-                    } else {
-                        $pendingAction = $word;
-                    }
-
-                } else {
+                        continue 2;
+//                    }
+                }  else {
                     //TO DO: Train lexic and add options to add new tags
                 }
             }
+
         }
         return true;
     }
