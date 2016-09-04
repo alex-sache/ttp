@@ -43,13 +43,21 @@ var timelineNodeHandler = function (graph) {
       generateGraph(graphData, 'daily-graph-present');
 
       if ($(this).next().length) {
-          generateGraph(graphData, 'daily-graph-future');
+          $.getJSON("/get_events_from_date/03.09.2016", function (data) {
+              graphData = data;
+          }).then(function () {
+              generateGraph(graphData, 'daily-graph-future');
+          });
       } else {
           $('#daily-graph-future').fadeOut();
       }
 
       if ($(this).prev().length) {
-          generateGraph(graphData, 'daily-graph-past');
+          $.getJSON("/get_events_from_date/03.09.2016", function (data) {
+              graphData = data;
+          }).then(function () {
+              generateGraph(graphData, 'daily-graph-past');
+          });
       } else {
           $('#daily-graph-past').fadeOut();
       }
