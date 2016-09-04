@@ -43,11 +43,18 @@ class GraphController extends Controller
     }
 
     /**
-     * @Route("/get_events_from_date", name="Get events from date")
+     * @Route("/get_events_from_date/{date}", name="Get events from date")
      */
-    public function getEventsFromDateAction()
+    public function getEventsFromDateAction(Request $request)
     {
+        $dataRequest = $request->request->get("relationship");
+        $data = json_decode($dataRequest, true);
+
         /** @var DataService $dataService */
         $dataService = $this->get('app_bundle.service.data');
+
+        $results = $dataService->getEventsFromDate($data);
+
+        return $results;
     }
 }
