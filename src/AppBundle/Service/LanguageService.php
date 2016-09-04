@@ -70,11 +70,11 @@ class LanguageService
             if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
                 $date = new \DateTime();
                 $date->modify('next ' . $word);
-                $this->graphService->createNode('Date', [ 'DATE' => $date, 'name' => $date->format('d.m.Y')]);
+                $this->graphService->createNode('Date', [ 'DATE' => $date->format('d.m.Y'), 'name' => $date->format('d.m.Y')]);
                 $lastNode['labelKey'] = 'name';
                 $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
-                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], 'EVENT_HAPPENS');
+                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date->format('d.m.Y'), 'type'=>'Date'], 'EVENT_HAPPENS');
 
                 continue;
             }
