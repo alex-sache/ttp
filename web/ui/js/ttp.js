@@ -140,11 +140,23 @@ jQuery(document).ready(function ($) {
         $.getJSON("/get_events_from_date/04.09.2016", function (data) {
             graphData = data;
         }).then(function () {
-            var pastGraph = createGraph(graphData, 'daily-graph-past'),
-                presentGraph = createGraph(graphData, 'daily-graph-present'),
-                futureGraph = createGraph(graphData, 'daily-graph-future');
+            var //pastGraph = createGraph(graphData, 'daily-graph-past'),
+                presentGraph = createGraph(graphData, 'daily-graph-present');
+                //futureGraph = createGraph(graphData, 'daily-graph-future');
 
             timelineNodeHandler(presentGraph);
+        });
+
+        $.getJSON("/get_events_from_date/03.09.2016", function (data) {
+            graphData = data;
+        }).then(function () {
+            var presentGraph = createGraph(graphData, 'daily-graph-past');
+        });
+
+        $.getJSON("/get_events_from_date/05.09.2016", function (data) {
+            graphData = data;
+        }).then(function () {
+            var presentGraph = createGraph(graphData, 'daily-graph-future');
         });
     });
 });
