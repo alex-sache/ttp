@@ -48,7 +48,7 @@ class GraphController extends Controller
      */
     public function getEventsFromDateAction(Request $request)
     {
-        $data = $request->request->get("date");
+        $data = $request->get("date");
         //$data = json_decode($dataRequest, true);
 
         /** @var DataService $dataService */
