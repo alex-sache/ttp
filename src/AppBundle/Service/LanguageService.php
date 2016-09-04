@@ -70,8 +70,7 @@ class LanguageService
             if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
                 $date = new \DateTime();
                 $date->modify('next ' . $word);
-                $date->format('d.m.Y');
-                $this->graphService->createNode('Date', [ 'DATE' => $date, 'name' => $date]);
+                $this->graphService->createNode('Date', [ 'DATE' => $date, 'name' => $date->format('d.m.Y')]);
                 $lastNode['labelKey'] = 'name';
                 $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
