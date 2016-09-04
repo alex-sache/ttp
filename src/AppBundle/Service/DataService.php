@@ -18,7 +18,7 @@ class DataService extends GraphService {
      * @return String
      */
     public function getEventsFromDate($date)
-    {
+    {die;
         $client = $this->buildClient();
 
         $query = "MATCH(t:EVENT_TIME)--(e)-[r*0..3]-(p) WHERE (t.DATE = " . '\'' . $date . '\'' . ") RETURN t,e,p,r;";
