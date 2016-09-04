@@ -52,7 +52,7 @@ class DataService extends GraphService {
                                 $graphData['nodes'][] = $value['endNodeIdentity'];
                             }
 
-                            $newEntry =  array('id' => $value['id'], 'weight' => 20, 'source' => $value['startNodeIdentity'], 'target' => $value['endNodeIdentity']);
+                            $newEntry =  array('id' => $value['id'], 'weight' => 20, 'source' => $value['startNodeIdentity'], 'target' => $value['endNodeIdentity'], 'label' => $value['type']);
                             if(!in_array($newEntry,$graphData['edges'])) {
                                 $graphData['edges'][] = $newEntry;
                             }
@@ -79,7 +79,8 @@ class DataService extends GraphService {
             $edgeArr[] = ['data' => [
                 'id' => $edge['id'],
                 'source' => $edge['source'],
-                'target' => $edge['target']
+                'target' => $edge['target'],
+                'label'  => $edge['label']
             ]];
 //            $graphDataJSON .= '{data: {id:' . '\'' . $edge['id'] . '\'' . ', weight:' . '\'' . $edge['weight'] . '\'' .
 //                ', source:' . '\'' . $edge['source'] . '\'' . ', target:' . '\'' . $edge['target'] . '\'' . '}},' . PHP_EOL;
