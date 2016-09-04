@@ -16,7 +16,7 @@ class GraphController extends Controller
      */
     public function createNodeAction(Request $request)
     {
-        $nodeRequest = $request->request->get("node");
+        $nodeRequest = $request->get("node");
         $node = json_decode($nodeRequest, true);
 
         /** @var GraphService $graphService */
@@ -32,7 +32,7 @@ class GraphController extends Controller
      */
     public function createRelationship(Request $request)
     {
-        $relationshipRequest = $request->request->get("relationship");
+        $relationshipRequest = $request->get("relationship");
         $relationship = json_decode($relationshipRequest, true);
 
         /** @var GraphService $graphService */
@@ -49,8 +49,6 @@ class GraphController extends Controller
     public function getEventsFromDateAction(Request $request)
     {
         $data = $request->get("date");
-        //$data = json_decode($dataRequest, true);
-
         /** @var DataService $dataService */
         $dataService = $this->get('app_bundle.service.data');
 
