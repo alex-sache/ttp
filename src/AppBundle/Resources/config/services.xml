@@ -11,6 +11,12 @@
 
     <services>
         <service id="app_bundle.service.graph" class="%app_bundle.service.graph.class%">
+            <call method="setNeo4jConnection">
+                <argument>%neo4j_connection%</argument>
+            </call>
+            <call method="setNeo4jUri">
+                <argument>%neo4j_uri%</argument>
+            </call>
         </service>
 
         <service id="app_bundle.service.language" class="%app_bundle.service.language.class%">
