@@ -1,7 +1,9 @@
 var data = ["14/01/2016", "16/02/2016", "16/03/2016", "16/04/2016", "16/05/2016", "16/06/2016", "16/07/2016", "16/08/2016", "16/09/2016", "16/10/2016", "16/11/2016", "16/12/2016"],
     events = $(".events").find("ol"),
     eventsContent = $(".events-content").find("ol"),
-    selectedClass = 'class="selected"';
+    selectedClass = 'class="selected"',
+    timelineDataRoute = '',
+    timelineNodeDataRoute = '';
 
 var getTimelineData = function () { //input data will be passed as param
     $.each(data, function (index, event) {
