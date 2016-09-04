@@ -131,6 +131,8 @@ jQuery(document).ready(function ($) {
         initTimeline($(this));
 
         $.ajax({"url": "/get_events_from_date/04.09.2016"}).done(function (graphData) {
+            console.log(graphData);
+
             var pastGraph = createGraph(graphData, 'daily-graph-past'),
                 presentGraph = createGraph(graphData, 'daily-graph-present'),
                 futureGraph = createGraph(graphData, 'daily-graph-future');
