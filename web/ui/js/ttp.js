@@ -33,6 +33,7 @@ var timelineNodeHandler = function (graph) {
           currentDate = currentTimelineNode.attr('id');
 
       currentDate = currentDate.replace("/", ".");
+      currentDate = currentDate.replace("/", ".");
 
       $.getJSON("/get_events_from_date/" + currentDate, function (data) {
           graphData = data;
@@ -42,6 +43,7 @@ var timelineNodeHandler = function (graph) {
 
       if ($(this).next().length) {
           currentDate = $(this).next().attr('id');
+          currentDate = currentDate.replace("/", ".");
           currentDate = currentDate.replace("/", ".");
           $.getJSON("/get_events_from_date/" + currentDate, function (data) {
               graphData = data;
@@ -54,6 +56,7 @@ var timelineNodeHandler = function (graph) {
 
       if ($(this).prev().length) {
           currentDate = $(this).prev().attr('id');
+          currentDate = currentDate.replace("/", ".");
           currentDate = currentDate.replace("/", ".");
 
           $.getJSON("/get_events_from_date/" + currentDate, function (data) {
