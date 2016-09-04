@@ -60,6 +60,8 @@ class GraphController extends Controller
 
         return $response;*/
 
+        return $results;
+
         $response = new JsonResponse();
         $response->setData($results);
 
