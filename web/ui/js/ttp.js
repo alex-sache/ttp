@@ -129,7 +129,7 @@ var createGraph = function (graphData, idSelector) {
 jQuery(document).ready(function ($) {
     getTimelineData().promise().done(function () {
         initTimeline($(this));
-        var graphData = {
+        /*var graphData = {
             nodes: [
                 { data: { id: 'a' , name: 'Jerry'} },
                 { data: { id: 'b' } },
@@ -147,12 +147,17 @@ jQuery(document).ready(function ($) {
                 { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
                 { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
             ]
-        };
-        var pastGraph = createGraph(graphData, 'daily-graph-past'),
-            presentGraph = createGraph(graphData, 'daily-graph-present'),
-            futureGraph = createGraph(graphData, 'daily-graph-future');
+        };*/
+        var graphData;
+        $.ajax("get_events_from_date/04.09.2016", function (data) {
+            graphData = data;
+        }).then(function () {
+            var pastGraph = createGraph(graphData, 'daily-graph-past'),
+                presentGraph = createGraph(graphData, 'daily-graph-present'),
+                futureGraph = createGraph(graphData, 'daily-graph-future');
 
-        timelineNodeHandler(presentGraph);
+            timelineNodeHandler(presentGraph);
+        });
 
        /* ttpGraph.on('tap', 'node', {}, function(evt){
             var node = evt.cyTarget;
