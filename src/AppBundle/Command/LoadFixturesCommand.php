@@ -46,13 +46,18 @@ class LoadFixturesCommand extends ContainerAwareCommand
         $nodes[] = ['type' => 'person', 'labels' => ['NAME' => 'Adi', 'age' => 21]];
         $nodes[] = ['type' => 'person', 'labels' => ['NAME' => 'Marty', 'age' => 19]];
 
+        $nodes[] = ['type' => 'activity', 'labels' => ['NAME' => 'homework']];
         $nodes[] = ['type' => 'activity', 'labels' => ['NAME' => 'stuff']];
         $nodes[] = ['type' => 'place', 'labels' => ['NAME' => 'Home']];
 
+        $nodes[] = ['type' => 'EVENT', 'labels' => ['NAME' => 'Adi does homework 1 september', 'WEIGHT' => 20, 'UNI_EVENT'=> 'ev4']];
         $nodes[] = ['type' => 'EVENT', 'labels' => ['NAME' => 'I do stuff with Adi saturday', 'WEIGHT' => 20, 'UNI_EVENT'=> 'ev1']];
         $nodes[] = ['type' => 'EVENT', 'labels' => ['NAME' => 'I do stuff sunday', 'WEIGHT' => 20, 'UNI_EVENT'=> 'ev2']];
         $nodes[] = ['type' => 'EVENT', 'labels' => ['NAME' => 'Marty drives home tomorow', 'WEIGHT' => 20, 'UNI_EVENT'=> 'ev3']];
 
+        $nodes[] = ['type' => 'EVENT', 'labels' => ['NAME' => 'Marty will do homework', 'WEIGHT' => 20, 'UNI_EVENT'=> 'ev5']];
+
+        $nodes[] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => '01.09.2016']];
         $nodes[] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => '03.09.2016']];
         $nodes[] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => '04.09.2016']];
         $nodes[] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => '05.09.2016']];
@@ -130,6 +135,43 @@ class LoadFixturesCommand extends ContainerAwareCommand
             'relType' => 'EVENT_HAPPENS'
         ];
 
+        /* ev4*/
+        $relations[] = [
+            'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => 'ev4'],
+            'nodeDestination' => ['type' => 'person', 'labelKey' => 'NAME', 'labelValue' => 'Adi'],
+            'relType' => 'EVENT_HAS'
+        ];
+
+        $relations[] = [
+            'nodeSource' => ['type' => 'person', 'labelKey' => 'NAME', 'labelValue' => 'Adi'],
+            'nodeDestination' => ['type' => 'activity', 'labelKey' => 'NAME', 'labelValue' => 'homework'],
+            'relType' => 'do'
+        ];
+
+        $relations[] = [
+            'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => 'ev4'],
+            'nodeDestination' => ['type' => 'EVENT_TIME', 'labelKey' => 'DATE', 'labelValue' => '01.09.2016'],
+            'relType' => 'EVENT_HAPPENS'
+        ];
+
+        /* ev5*/
+        $relations[] = [
+            'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => 'ev5'],
+            'nodeDestination' => ['type' => 'person', 'labelKey' => 'NAME', 'labelValue' => 'Marty'],
+            'relType' => 'EVENT_HAS'
+        ];
+
+        $relations[] = [
+            'nodeSource' => ['type' => 'person', 'labelKey' => 'NAME', 'labelValue' => 'Marty'],
+            'nodeDestination' => ['type' => 'activity', 'labelKey' => 'NAME', 'labelValue' => 'homework'],
+            'relType' => 'do'
+        ];
+
+        $relations[] = [
+            'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => 'ev5'],
+            'nodeDestination' => ['type' => 'EVENT_TIME', 'labelKey' => 'DATE', 'labelValue' => '25.09.2016'],
+            'relType' => 'EVENT_HAPPENS'
+        ];
         return $relations;
     }
 }
