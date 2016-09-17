@@ -55,6 +55,10 @@ class LanguageService
         $at = '';
         $on = '';
         $date = '';
+        $nodeId = uniqid('ev');
+        $nodes['eveniment'] = ['type' => 'EVENT',
+            'labels' => ['NAME' => $text, 'UNI_EVENT'=> $nodeId]];
+
         foreach ($words as $word) {
             $sql = "SELECT d.tag
                       FROM lexic l
@@ -69,11 +73,15 @@ class LanguageService
 
             if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
                 $date = date('Y-m-d H:i:s',strtotime("next" . $word));
-                $this->graphService->createNode('Date', [ 'name' => $date ]);
+                $nodes['moment'] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => $date]];
+                $this->graphService->createNode('EVENT_TIME', ['NAME'=>'Day','DATE' => $date ]);
                 $lastNode['labelKey'] = 'name';
                 $lastNode['labelValue'] = $firstNode['labels']['name'];
                 $lastNode['type'] = 'Activity';
-                $this->graphService->createRelationship($lastNode, ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on);
+                $this->graphService->createRelationship(
+                    $lastNode,
+                    ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on
+                );
 
                 continue;
             }
