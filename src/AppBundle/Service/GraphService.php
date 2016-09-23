@@ -66,6 +66,22 @@ class GraphService
         return true;
     }
 
+    public function createGraph($nodes = array(), $relations = array())
+    {
+        foreach ($nodes as $key => $node) {
+            $this->createNode($node['type'], $node['labels']);
+
+        }
+
+        foreach ($relations as $relation) {
+            $this->createRelationship(
+                $relation['nodeSource'],
+                $relation['nodeDestination'],
+                $relation['relType']
+            );
+        }
+    }
+
     public function searchIn($queryParams = [])
     {
         $client = $this->buildClient();

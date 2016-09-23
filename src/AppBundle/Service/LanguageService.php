@@ -8,7 +8,7 @@
 
 namespace AppBundle\Service;
 
-
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LanguageService
@@ -22,6 +22,27 @@ class LanguageService
      * @var GraphService
      */
     protected $graphService;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
+    /**
+     * @return EntityManagerInterface
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * @return GraphService
@@ -46,9 +67,13 @@ class LanguageService
      */
     public function dataClassification($text)
     {
+        $text = trim($text);
+        if(!strlen($text)) return false;
+        error_log($text);
         $words = explode(" ",$text);
         $pdo = $this->createPDO();
-        $sql = '';
+        $nodes =array();
+        $relations= array();
         $firstNode = [];
         $lastNode = [];
         $pendingAction = '';
@@ -72,16 +97,15 @@ class LanguageService
             $tags = $stmt->fetchAll(\PDO::FETCH_NUM);
 
             if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
-                $date = date('Y-m-d H:i:s',strtotime("next" . $word));
+                //temporary non standard date format
+                $date = date('d.m.Y',strtotime("next" . $word));
                 $nodes['moment'] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => $date]];
-                $this->graphService->createNode('EVENT_TIME', ['NAME'=>'Day','DATE' => $date ]);
-                $lastNode['labelKey'] = 'name';
-                $lastNode['labelValue'] = $firstNode['labels']['name'];
-                $lastNode['type'] = 'Activity';
-                $this->graphService->createRelationship(
-                    $lastNode,
-                    ['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], $on
-                );
+
+                $relations['happens'] = [
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
+                    'nodeDestination' => ['type' => 'EVENT_TIME', 'labelKey' => 'DATE', 'labelValue' => $date],
+                    'relType' => 'EVENT_HAPPENS'
+                ];
 
                 continue;
             }
@@ -145,6 +169,7 @@ class LanguageService
             }
 
         }
+        $this->getGraphService()->createGraph($nodes,$relations);
         return true;
     }
 
@@ -209,12 +234,8 @@ class LanguageService
      */
     public function createPDO()
     {
-        $dbhost = '127.0.0.1';
-        $dbusername = 'root';
-        $dbpassword = 'Lemp1Hackaton2016';
-        $dbname = 'ttp';
+        $pdo=$this->getEm()->getConnection();
 
-        $pdo = new \PDO("mysql:host=$dbhost;dbname=$dbname","$dbusername","$dbpassword");
         return $pdo;
     }
 
