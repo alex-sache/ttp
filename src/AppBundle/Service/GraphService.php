@@ -68,6 +68,9 @@ class GraphService
 
     public function createGraph($nodes = array(), $relations = array())
     {
+        print_r($nodes);
+        print_r($relations);
+        die('graf');
         foreach ($nodes as $key => $node) {
             $this->createNode($node['type'], $node['labels']);
 

@@ -77,9 +77,7 @@ class LanguageService
         $firstNode = [];
         $lastNode = [];
         $pendingAction = '';
-        $at = '';
         $on = '';
-        $date = '';
         $nodeId = uniqid('ev');
         $nodes['eveniment'] = ['type' => 'EVENT',
             'labels' => ['NAME' => $text, 'UNI_EVENT'=> $nodeId]];
@@ -115,12 +113,12 @@ class LanguageService
             }
 
             if ($word == 'at') {
-                $at = $word;
-            }
-
-            if (!empty($at) && isset($date)) {
-                $this->graphService->createNode('Location', [ 'name' => $word ]);
-                $this->graphService->createRelationship(['labelKey' => 'name', 'labelValue' => $date, 'type'=>'Date'], ['labelKey' => 'name', 'labelValue' => $word, 'type' => 'Location'], $at);
+                $nodes['location'] = ['type' => 'LOCATION', 'labels' => ['NAME' => $word]];
+                $relations['happens'] = [
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
+                    'nodeDestination' => ['type' => 'LOCATION', 'labelKey' => 'NAME', 'labelValue' => $word],
+                    'relType' => 'EVENT_LOCATION'
+                ];
 
                 continue;
             }

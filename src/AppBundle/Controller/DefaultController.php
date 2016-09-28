@@ -16,7 +16,19 @@ class DefaultController extends Controller
      */
     public function homeAction(Request $request)
     {
-        return $this->redirect('/ui/', 301);
+        return $this->redirect('/now', 301);
+    }
+
+    /**
+     * @Route("/now", name="now")
+     */
+    public function uiAction(Request $request)
+    {
+        $days = array();
+        return $this->render('ui.html.twig', array(
+            'days' => $days,
+            'baseref' => $this->getParameter('ttp_host')
+        ));
     }
 
     /**
@@ -31,7 +43,7 @@ class DefaultController extends Controller
             $languageService->dataClassification($request->request->get('info'));
         }
 
-        return $this->redirect('/ui/', 301);
+        return $this->redirect('/now', 301);
     }
 
     /**
