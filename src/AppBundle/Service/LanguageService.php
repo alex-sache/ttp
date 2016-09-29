@@ -82,7 +82,7 @@ class LanguageService
         $nodes['eveniment'] = ['type' => 'EVENT',
             'labels' => ['NAME' => $text, 'UNI_EVENT'=> $nodeId]];
 
-        foreach ($words as $word) {
+        foreach ($words as $indexWord => $word) {
             $sql = "SELECT d.tag
                       FROM lexic l
                         JOIN dictionary_to_lexic dtl ON l.id = dtl.word_id
@@ -108,13 +108,9 @@ class LanguageService
                 continue;
             }
 
-            if ($word == 'on') {
-                $on = $word;
-            }
-
             if ($word == 'at') {
                 $nodes['location'] = ['type' => 'LOCATION', 'labels' => ['NAME' => $word]];
-                $relations['happens'] = [
+                $relations['at'] = [
                     'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
                     'nodeDestination' => ['type' => 'LOCATION', 'labelKey' => 'NAME', 'labelValue' => $word],
                     'relType' => 'EVENT_LOCATION'
@@ -124,41 +120,43 @@ class LanguageService
             }
 
             if (count($tags) == 1 && $tags['0']['0'] == 'NP') {
-                $firstNode['type'] = 'Person';
-                $firstNode['labels'] =
-                    [
-                        'name' => $word
-                    ];
-                $this->graphService->createNode($firstNode['type'], $firstNode['labels']);
+                $nodes[$indexWord] = ['type' => 'Person', 'labels' => ['NAME' => $word]];
+                $relations['part'] = [
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
+                    'nodeDestination' => ['type' => 'LOCATION', 'labelKey' => 'NAME', 'labelValue' => $word],
+                    'relType' => 'EVENT_LOCATION'
+                ];
+                $firstNode = $nodes[$indexWord];
                 continue;
             }
 
             foreach ($tags as $tag) {
                 if (in_array($tag['0'], $this->verbsTag)) {
                     if (!empty($firstNode) && !empty($lastNode)) {
-                        $this->graphService->createRelationship($firstNode, $lastNode, $word);
+                        $relations[$indexWord] = [
+                            'nodeSource' => ['type' => $firstNode['type'], 'labelKey' => 'NAME', 'labelValue' => $firstNode['labels']['NAME']],
+                            'nodeDestination' => ['type' => $lastNode['type'], 'labelKey' => 'NAME', 'labelValue' => $lastNode['labels']['NAME']],
+                            'relType' => $word
+                        ];
                     } else {
                         $pendingAction = $word;
                     }
                     continue 2;
 
                 } elseif (in_array($tag['0'], $this->nounsTag)) {
-                        $lastNode['type'] = 'Activity';
-                        $lastNode['labels'] =
-                            [
-                                'name' => $word
-                            ];
-                        $this->graphService->createNode($lastNode['type'], $lastNode['labels']);
-                        if (!empty ($pendingAction)) {
-                            $firstNode['labelKey'] = 'name';
-                            $firstNode['labelValue'] = $firstNode['labels']['name'];
-                            $lastNode['labelKey'] = 'name';
-                            $lastNode['labelValue'] = $lastNode['labels']['name'];
-                            $this->graphService->createRelationship($firstNode, $lastNode, $pendingAction);
-                            $firstNode = $lastNode;
-                            $lastNode = [];
-                            $pendingAction = '';
-                        }
+                    $nodes[$indexWord] = ['type' => 'Activity', 'labels' => ['NAME' => $word]];
+                    $lastNode= $nodes[$indexWord];
+                    if (!empty ($pendingAction) && !empty($firstNode)) {
+                        $relations[$indexWord] = [
+                            'nodeSource' => ['type' => $firstNode['type'], 'labelKey' => 'NAME', 'labelValue' => $firstNode['labels']['NAME']],
+                            'nodeDestination' => ['type' => $lastNode['type'], 'labelKey' => 'NAME', 'labelValue' => $lastNode['labels']['NAME']],
+                            'relType' => $pendingAction
+                        ];
+
+                        $firstNode = $lastNode;
+                        $lastNode = [];
+                        $pendingAction = '';
+                    }
                         continue 2;
 //                    }
                 }  else {
