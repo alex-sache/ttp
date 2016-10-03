@@ -77,7 +77,6 @@ class LanguageService
         $firstNode = [];
         $lastNode = [];
         $pendingAction = '';
-        $on = '';
         $nodeId = uniqid('ev');
         $nodes['eveniment'] = ['type' => 'EVENT',
             'labels' => ['NAME' => $text, 'UNI_EVENT'=> $nodeId]];
@@ -94,13 +93,13 @@ class LanguageService
             $stmt->execute();
             $tags = $stmt->fetchAll(\PDO::FETCH_NUM);
 
-            if (!empty($on) && in_array($word, $this->daysOfTheWeek)) {
+            if (in_array($word, $this->daysOfTheWeek)) {
                 //temporary non standard date format
                 $date = date('d.m.Y',strtotime("next" . $word));
                 $nodes['moment'] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => $date]];
 
                 $relations['happens'] = [
-                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['labels']['UNI_EVENT']],
                     'nodeDestination' => ['type' => 'EVENT_TIME', 'labelKey' => 'DATE', 'labelValue' => $date],
                     'relType' => 'EVENT_HAPPENS'
                 ];
@@ -111,7 +110,7 @@ class LanguageService
             if ($word == 'at') {
                 $nodes['location'] = ['type' => 'LOCATION', 'labels' => ['NAME' => $word]];
                 $relations['at'] = [
-                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['labels']['UNI_EVENT']],
                     'nodeDestination' => ['type' => 'LOCATION', 'labelKey' => 'NAME', 'labelValue' => $word],
                     'relType' => 'EVENT_LOCATION'
                 ];
@@ -122,9 +121,9 @@ class LanguageService
             if (count($tags) == 1 && $tags['0']['0'] == 'NP') {
                 $nodes[$indexWord] = ['type' => 'Person', 'labels' => ['NAME' => $word]];
                 $relations['part'] = [
-                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['UNI_EVENT']],
-                    'nodeDestination' => ['type' => 'LOCATION', 'labelKey' => 'NAME', 'labelValue' => $word],
-                    'relType' => 'EVENT_LOCATION'
+                    'nodeSource' => ['type' => 'EVENT', 'labelKey' => 'UNI_EVENT', 'labelValue' => $nodes['eveniment']['labels']['UNI_EVENT']],
+                    'nodeDestination' => ['type' => 'Person', 'labelKey' => 'NAME', 'labelValue' => $word],
+                    'relType' => 'EVENT_PERSON'
                 ];
                 $firstNode = $nodes[$indexWord];
                 continue;
@@ -132,6 +131,8 @@ class LanguageService
 
             foreach ($tags as $tag) {
                 if (in_array($tag['0'], $this->verbsTag)) {
+                    error_log(print_r($firstNode, true));
+                    error_log(print_r($lastNode, true));
                     if (!empty($firstNode) && !empty($lastNode)) {
                         $relations[$indexWord] = [
                             'nodeSource' => ['type' => $firstNode['type'], 'labelKey' => 'NAME', 'labelValue' => $firstNode['labels']['NAME']],
@@ -147,6 +148,7 @@ class LanguageService
                     $nodes[$indexWord] = ['type' => 'Activity', 'labels' => ['NAME' => $word]];
                     $lastNode= $nodes[$indexWord];
                     if (!empty ($pendingAction) && !empty($firstNode)) {
+                        error_log(print_r($lastNode, true));
                         $relations[$indexWord] = [
                             'nodeSource' => ['type' => $firstNode['type'], 'labelKey' => 'NAME', 'labelValue' => $firstNode['labels']['NAME']],
                             'nodeDestination' => ['type' => $lastNode['type'], 'labelKey' => 'NAME', 'labelValue' => $lastNode['labels']['NAME']],
