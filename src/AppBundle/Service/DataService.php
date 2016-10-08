@@ -106,7 +106,7 @@ class DataService extends GraphService {
     {
         $client = $this->buildClient();
 
-        if ($date && preg_match()) {
+        if ($date) {
             $query = "MATCH(t:EVENT_TIME)--(e) WHERE (t.DATE = '{date}') RETURN t.DATE as date, count(DISTINCT e) as nr;";
             $parameters = ['date' => $date];
             $result = $client->run($query, $parameters);
@@ -116,6 +116,7 @@ class DataService extends GraphService {
             $result = $client->run($query);
         }
         $records = $result->records();
+
         return $records;
     }
 

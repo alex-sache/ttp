@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\DataService;
 use AppBundle\Service\GraphService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -62,7 +63,7 @@ class GraphController extends Controller
     }
 
     /**
-     * @Route("/count_events_from_date/{date}", name="Count events from date")
+     * @Route("/count_events_from_date/{date}", defaults={"date"="03.09.2016"}, name="Count events from date")
      */
     public function countEventsFromDateAction(Request $request)
     {
@@ -72,7 +73,11 @@ class GraphController extends Controller
         /** @var DataService $dataService */
         $dataService = $this->get('app_bundle.service.data');
 
-        $results = $dataService->getEventsFromDate($data);
-        return new JsonResponse($results);
+        $results = $dataService->countEventsFromDate($data);
+        $out=[];
+        foreach($results as $recordObject) {
+            $out[] = $recordObject->get('t.DATE');
+        }
+        return new JsonResponse($out);
     }
 }
