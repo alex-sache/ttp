@@ -1,10 +1,10 @@
 vendor/
 web/bundles/
-app/config/parameters.yml
+#app/config/parameters.yml
 app/cache/
 app/logs/
 .swp
-.idea/
+#.idea/
 logs/
 .htaccess
 app/bootstrap.php.cache
