@@ -81,10 +81,13 @@
     </div>-->
 </div>
 
-<script src="http://{{ baseref }}/ui/js/jquery-2.1.4.js"></script>
-<script src="http://{{ baseref }}/ui/js/bootstrap.js"></script>
-<script src="http://{{ baseref }}/ui/js/cytoscape.js"></script>
-<script src="http://{{ baseref }}/ui/js/timeline.js"></script>
-<script src="http://{{ baseref }}/ui/js/ttp.js"></script>
+{% javascripts '@AppBundle/Resources/public/js/jquery-2.1.4.js'
+'@AppBundle/Resources/public/js/bootstrap.js'
+'@AppBundle/Resources/public/js/cytoscape.js'
+'@AppBundle/Resources/public/js/timeline.js'
+'@AppBundle/Resources/public/js/ttp.js'
+%}
+<script src="{{ asset_url }}" type="text/javascript"></script>
+{% endjavascripts %}
 </body>
 </html>

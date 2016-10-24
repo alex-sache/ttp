@@ -76,8 +76,11 @@ class GraphController extends Controller
         $results = $dataService->countEventsFromDate($data);
         $out=[];
         foreach($results as $recordObject) {
-            $out[] = $recordObject->get('t.DATE');
+            $retDate = $recordObject->get('t.DATE');
+            $key = implode(array_reverse(explode('.',$retDate)));
+            $out[$key] = strtr($retDate, array('.'=>'/'));
         }
-        return new JsonResponse($out);
+        ksort($out);
+        return new JsonResponse(array_values($out));
     }
 }
