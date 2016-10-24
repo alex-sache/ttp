@@ -95,7 +95,7 @@ class LanguageService
 
             if (in_array($word, $this->daysOfTheWeek)) {
                 //temporary non standard date format
-                $date = date('d.m.Y',strtotime("next" . $word));
+                $date = date('d.m.Y',strtotime("next " . $word));
                 $nodes['moment'] = ['type' => 'EVENT_TIME', 'labels' => ['NAME' => 'Day', 'DATE' => $date]];
 
                 $relations['happens'] = [
@@ -131,8 +131,8 @@ class LanguageService
 
             foreach ($tags as $tag) {
                 if (in_array($tag['0'], $this->verbsTag)) {
-                    error_log(print_r($firstNode, true));
-                    error_log(print_r($lastNode, true));
+                    //error_log(print_r($firstNode, true));
+                    //error_log(print_r($lastNode, true));
                     if (!empty($firstNode) && !empty($lastNode)) {
                         $relations[$indexWord] = [
                             'nodeSource' => ['type' => $firstNode['type'], 'labelKey' => 'NAME', 'labelValue' => $firstNode['labels']['NAME']],
