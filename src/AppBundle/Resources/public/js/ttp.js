@@ -1,14 +1,34 @@
+function getDateFormat(cDate, delimiter) {
+    delimiter = typeof delimiter !== 'undefined' ? delimiter : '/';
+    var dd = cDate.getDate();
+    var mm = cDate.getMonth() + 1; //January is 0!
+    var yyyy = cDate.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    cDate = dd + delimiter + mm + delimiter + yyyy;
+    return cDate;
+}
+var today = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+var yesterday = new Date();
+yesterday.setDate(today.getDate() + 1);
+
 var data,
     events = $(".events").find("ol"),
     eventsContent = $(".events-content").find("ol"),
     selectedClass = 'class="selected"',
     timelineDataRoute = '',
     timelineNodeDataRoute = '';
-// = ["01/01/1970", "01/09/2016", "03/09/2016", "04/09/2016", "05/09/2016", "06/09/2016", "07/09/2016", "10/10/2016"]
 
 var getTimelineData = function () { //input data will be passed as param
     $.each(data, function (index, event) {
-        if (event == '04/09/2016') {
+        if (event == getDateFormat(today)) {
             var selectedClassNow = selectedClass
         }
         dateParts = event.split("/");
@@ -136,31 +156,33 @@ var createGraph = function (graphData, idSelector) {
 jQuery(document).ready(function ($) {
     $.getJSON("/count_events_from_date", function(json){
         data = json;
-    });
-    getTimelineData().promise().done(function () {
-        initTimeline($(this));
+    }).then(function () {
+        getTimelineData().promise().done(function () {
+            initTimeline($(this));
 
-        var graphData;
-        $.getJSON("/get_events_from_date/04.09.2016", function (data) {
-            graphData = data;
-        }).then(function () {
-            var //pastGraph = createGraph(graphData, 'daily-graph-past'),
-                presentGraph = createGraph(graphData, 'daily-graph-present');
+            var graphData;
+            $.getJSON("/get_events_from_date/28.10.2016", function (data) {
+                graphData = data;
+            }).then(function () {
+                var //pastGraph = createGraph(graphData, 'daily-graph-past'),
+                    presentGraph = createGraph(graphData, 'daily-graph-present');
                 //futureGraph = createGraph(graphData, 'daily-graph-future');
 
-            timelineNodeHandler(presentGraph);
-        });
+                timelineNodeHandler(presentGraph);
+            });
 
-        $.getJSON("/get_events_from_date/03.09.2016", function (data) {
-            graphData = data;
-        }).then(function () {
-            var presentGraph = createGraph(graphData, 'daily-graph-past');
-        });
+            $.getJSON("/get_events_from_date/26.10.2016", function (data) {
+                graphData = data;
+            }).then(function () {
+                var presentGraph = createGraph(graphData, 'daily-graph-past');
+            });
 
-        $.getJSON("/get_events_from_date/05.09.2016", function (data) {
-            graphData = data;
-        }).then(function () {
-            var presentGraph = createGraph(graphData, 'daily-graph-future');
+            $.getJSON("/get_events_from_date/01.11.2016", function (data) {
+                graphData = data;
+            }).then(function () {
+                var presentGraph = createGraph(graphData, 'daily-graph-future');
+            });
         });
     });
+
 });

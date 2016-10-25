@@ -20,7 +20,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/now", name="now")
+     * @Route("/now{trailingSlash}", name="now", defaults={"trailingSlash":"/"}, requirements={"trailingSlash": "[/]{0,1}"})
      */
     public function uiAction(Request $request)
     {
