@@ -1,23 +1,27 @@
-function getDateFormat(cDate, delimiter) {
+function formatDateString(dateParts, delimiter) {
     delimiter = typeof delimiter !== 'undefined' ? delimiter : '/';
-    var dd = cDate.getDate();
-    var mm = cDate.getMonth() + 1; //January is 0!
-    var yyyy = cDate.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd
+    var stringDate = dateParts[0] + delimiter + dateParts[1] + delimiter + dateParts[2];
+    return stringDate;
+}
+function getDateFormat(cDate, delimiter) {
+    var dateParts = [];
+    dateParts[0] = cDate.getDate();
+    dateParts[1] = cDate.getMonth() + 1; //January is 0!
+    dateParts[2] = cDate.getFullYear();
+    if (dateParts[0] < 10) {
+        dateParts[0] = '0' + dateParts[0]
     }
-    if (mm < 10) {
-        mm = '0' + mm
+    if (dateParts[1] < 10) {
+        dateParts[1] = '0' + dateParts[1]
     }
 
-    cDate = dd + delimiter + mm + delimiter + yyyy;
-    return cDate;
+    return formatDateString(dateParts, delimiter);
 }
 var today = new Date();
-var tomorrow = new Date();
-tomorrow.setDate(today.getDate() + 1);
-var yesterday = new Date();
-yesterday.setDate(today.getDate() + 1);
+//var tomorrow = new Date();
+//tomorrow.setDate(today.getDate() + 1);
+//var yesterday = new Date();
+//yesterday.setDate(today.getDate() + 1);
 
 var data,
     events = $(".events").find("ol"),
@@ -159,9 +163,24 @@ jQuery(document).ready(function ($) {
     }).then(function () {
         getTimelineData().promise().done(function () {
             initTimeline($(this));
+            var presentDate = getDateFormat(today);
+            for (i = 0; i < data.length; i++) {
+                if (data[i] == presentDate) {
+                    if (i == 0) {
+                        var left_neighbour = '';
+                    } else {
+                        var left_neighbour = data[i - 1];
+                    }
+                    if (i == data.length) {
+                        var right_neighbour = '';
+                    } else {
+                        var right_neighbour = data[i + 1];
+                    }
+                }
+            }
 
             var graphData;
-            $.getJSON("/get_events_from_date/28.10.2016", function (data) {
+            $.getJSON("/get_events_from_date/"+getDateFormat(today,'.'), function (data) {
                 graphData = data;
             }).then(function () {
                 var //pastGraph = createGraph(graphData, 'daily-graph-past'),
@@ -170,18 +189,21 @@ jQuery(document).ready(function ($) {
 
                 timelineNodeHandler(presentGraph);
             });
-
-            $.getJSON("/get_events_from_date/26.10.2016", function (data) {
-                graphData = data;
-            }).then(function () {
-                var presentGraph = createGraph(graphData, 'daily-graph-past');
-            });
-
-            $.getJSON("/get_events_from_date/01.11.2016", function (data) {
-                graphData = data;
-            }).then(function () {
-                var presentGraph = createGraph(graphData, 'daily-graph-future');
-            });
+            if (left_neighbour !== '') {
+                var dateParts = left_neighbour.split("/");
+                $.getJSON("/get_events_from_date/" + formatDateString(dateParts, '.'), function (data) {
+                    graphData = data;
+                }).then(function () {
+                    var presentGraph = createGraph(graphData, 'daily-graph-past');
+                });
+            }
+            if (right_neighbour !== '') {
+                $.getJSON("/get_events_from_date/" + formatDateString(right_neighbour.split("/"), '.'), function (data) {
+                    graphData = data;
+                }).then(function () {
+                    var presentGraph = createGraph(graphData, 'daily-graph-future');
+                });
+            }
         });
     });
 

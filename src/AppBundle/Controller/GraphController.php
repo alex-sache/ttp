@@ -74,12 +74,14 @@ class GraphController extends Controller
         $dataService = $this->get('app_bundle.service.data');
 
         $results = $dataService->countEventsFromDate($data);
-        $out=[];
+        //have today always on timeline
+        $out=array(date("Ymd") => date("d/m/Y"));
         foreach($results as $recordObject) {
             $retDate = $recordObject->get('t.DATE');
             $key = implode(array_reverse(explode('.',$retDate)));
             $out[$key] = strtr($retDate, array('.'=>'/'));
         }
+        $out = array_unique($out);
         ksort($out);
         return new JsonResponse(array_values($out));
     }
