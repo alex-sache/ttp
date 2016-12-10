@@ -6,13 +6,18 @@ use GraphAware\Neo4j\Client\ClientBuilder;
 
 class GraphService
 {
+
+    public function setConnection($neoConnection) {
+        $this->neoConnection = $neoConnection;
+    }
+
     /**
      * @return \GraphAware\Neo4j\Client\Client
      */
     protected function buildClient()
     {
         $client = ClientBuilder::create()
-            ->addConnection('default', 'http://neo4j:parolaneo4j@46.101.106.91:7474')
+            ->addConnection('default', $this->neoConnection)
             ->build();
 
         return $client;

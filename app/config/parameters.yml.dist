@@ -19,3 +19,5 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     ttp_host: 'ttp.events'
+
+    neo_connection: 'http://user:pass@ipneo4j:port'

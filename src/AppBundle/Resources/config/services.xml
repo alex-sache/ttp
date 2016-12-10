@@ -10,7 +10,11 @@
     </parameters>
 
     <services>
-        <service id="app_bundle.service.graph" class="%app_bundle.service.graph.class%"/>
+        <service id="app_bundle.service.graph" class="%app_bundle.service.graph.class%">
+            <call method="setConnection">
+                <argument>%neo_connection%</argument>
+            </call>
+        </service>
         <service id="app_bundle.service.language" class="%app_bundle.service.language.class%">
             <call method="setGraphService">
                 <argument type="service" id="app_bundle.service.graph"/>
@@ -21,6 +25,9 @@
         </service>
         
         <service id="app_bundle.service.data" class="%app_bundle.service.data.class%">
+            <call method="setConnection">
+                <argument>%neo_connection%</argument>
+            </call>
         </service>        
     </services>
 </container>
