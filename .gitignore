@@ -9,7 +9,5 @@ app/logs/
 logs/
 .htaccess
 app/bootstrap.php.cache
-var/cache/
-var/logs/
-var/sessions/
-var/bootstrap.php.cache
+var/
+bin/symfony_requirements
