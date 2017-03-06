@@ -62,6 +62,20 @@ class GraphController extends Controller
         return $response;
     }
 
+
+    /**
+     * @Route("/get_events_with_date", name="Get events and their dates")
+     */
+    public function getEventsWithDateAction(Request $request)
+    {
+        /** @var DataService $dataService */
+        $dataService = $this->get('app_bundle.service.data');
+        $results = $dataService->getEventsWithDate();
+
+        $ret = $dataService->hydrateDefault($results);
+        return new JsonResponse($ret);
+    }
+
     /**
      * @Route("/count_events_from_date/{date}", defaults={"date"="03.09.2016"}, name="Count events from date")
      */

@@ -120,6 +120,36 @@ class DataService extends GraphService {
         return $records;
     }
 
+    public function getEventsWithDate($limit = 100)
+    {
+        $client = $this->buildClient();
+
+        $query = "MATCH(e:EVENT)-[:EVENT_HAPPENS]-(t:EVENT_TIME) RETURN DISTINCT e.UNI_EVENT AS id, e.NAME AS name, t.DATE AS date LIMIT {limit} ;";
+        $parameters = ['limit' => (int)$limit];
+        $result = $client->run($query, $parameters);
+
+        $records = $result->records();
+
+        return $records;
+
+    }
+
+    /**
+     * @param $records
+     * @return array
+     */
+    public function hydrateDefault($records)
+    {
+        $out =array();
+        /**@var $recordObject \GraphAware\Neo4j\Client\Formatter\RecordView */
+        foreach($records as $recordObject) {
+            $keys = $recordObject->keys();
+            $values = $recordObject->values();
+            array_push($out,array_combine($keys, $values));
+        }
+        return $out;
+    }
+
     /**
      * @param $id
      * @return string

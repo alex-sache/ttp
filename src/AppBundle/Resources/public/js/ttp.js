@@ -27,6 +27,7 @@ var data,
     events = $(".events").find("ol"),
     eventsContent = $(".events-content").find("ol"),
     selectedClass = 'class="selected"',
+    eventList = $("#event_list");
     timelineDataRoute = '',
     timelineNodeDataRoute = '';
 
@@ -39,6 +40,14 @@ var getTimelineData = function () { //input data will be passed as param
         events.append('<li id="' + event + '"><a href="#0" data-date="' + event + '" ' + selectedClassNow + '>' + dateParts[0]+'</br>' + dateParts[1]+ '</br>' + dateParts[2]+ '</a></li>');
         eventsContent.append('<li data-date="' + event + '"' + selectedClass + '>Lorem ' + event + '</li>');
         selectedClassNow = "";
+    });
+
+    return $('#ttp-events');
+};
+
+var geteventListData = function (data) {
+    $.each(data, function (index, event) {
+        eventList.append('<li id="' + event.id + '"><a href="#0" data-date="' + event.date + '">' + event.name + '</a></li>');
     });
 
     return $('#ttp-events');
@@ -158,6 +167,12 @@ var createGraph = function (graphData, idSelector) {
 };
 
 jQuery(document).ready(function ($) {
+    $.getJSON("/get_events_with_date", function(json){
+        data = json;
+    }).then(function () {
+        geteventListData(data);
+    });
+
     $.getJSON("/count_events_from_date", function(json){
         data = json;
     }).then(function () {
