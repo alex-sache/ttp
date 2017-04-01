@@ -97,6 +97,18 @@ class DataService extends GraphService {
         return $final;
     }
 
+    public function getEventsFromId($id)
+    {
+        $client = $this->buildClient();
+        //better with index START e=node:node_auto_index(UNI_EVENT = "ev584bfdd8822e0") MATCH(e)--(t)-[r*0..10]-(p) RETURN t,e,p,r;
+        $query = "MATCH(e:EVENT)--(t)-[r*0..10]-(p) WHERE (e.UNI_EVENT = '{id}') RETURN t,e,p,r;";
+        $parameters = ['id' => $id];
+
+        $result = $client->run($query, $parameters);
+        $records = $result->records();
+        return $records;
+    }
+
 
     /**
      * @param $date
@@ -124,7 +136,7 @@ class DataService extends GraphService {
     {
         $client = $this->buildClient();
 
-        $query = "MATCH(e:EVENT)-[:EVENT_HAPPENS]-(t:EVENT_TIME) RETURN DISTINCT e.UNI_EVENT AS id, e.NAME AS name, t.DATE AS date LIMIT {limit} ;";
+        $query = "MATCH(e:EVENT)-[:EVENT_HAPPENS]-(t:EVENT_TIME) RETURN DISTINCT e.UNI_EVENT AS id, e.NAME AS name, t.DATE AS date ORDER BY date DESC LIMIT {limit} ;";
         $parameters = ['limit' => (int)$limit];
         $result = $client->run($query, $parameters);
 
