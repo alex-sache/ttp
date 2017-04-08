@@ -62,6 +62,20 @@ class GraphController extends Controller
         return $response;
     }
 
+    /**
+     * @Route("/get_graph_from_id/{idEvent}", name="Get graph from id action")
+     */
+    public function getGraphFromIdAction(Request $request)
+    {
+        $idEvent = $request->get("idEvent");
+
+        /** @var DataService $dataService */
+        $dataService = $this->get('app_bundle.service.data');
+        $results = $dataService->getEventsFromId($idEvent);
+
+        $ret = $dataService->hydrateOldStyle($results);
+        return new JsonResponse($ret);
+    }
 
     /**
      * @Route("/get_events_with_date", name="Get events and their dates")

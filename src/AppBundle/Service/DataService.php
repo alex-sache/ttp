@@ -26,6 +26,15 @@ class DataService extends GraphService {
         $result = $client->run($query);
         $records = $result->records();
 
+        return $this->hydrateOldStyle($records);
+    }
+
+    /**
+     * @param $records
+     * @return array
+     */
+    public function hydrateOldStyle($records)
+    {
         $graphData = array();
         $graphData['nodes'] = array();
         $graphData['edges'] = array();
@@ -97,12 +106,12 @@ class DataService extends GraphService {
         return $final;
     }
 
-    public function getEventsFromId($id)
+    public function getEventsFromId($idEvent='ev584bfd3f67d11')
     {
         $client = $this->buildClient();
         //better with index START e=node:node_auto_index(UNI_EVENT = "ev584bfdd8822e0") MATCH(e)--(t)-[r*0..10]-(p) RETURN t,e,p,r;
-        $query = "MATCH(e:EVENT)--(t)-[r*0..10]-(p) WHERE (e.UNI_EVENT = '{id}') RETURN t,e,p,r;";
-        $parameters = ['id' => $id];
+        $query = "MATCH(e:EVENT)--(t)-[r*0..10]-(p) WHERE (e.UNI_EVENT = {idEvent}) RETURN t,e,p,r;";
+        $parameters = ['idEvent' => $idEvent];
 
         $result = $client->run($query, $parameters);
         $records = $result->records();
