@@ -110,7 +110,7 @@ class DataService extends GraphService {
     {
         $client = $this->buildClient();
         //better with index START e=node:node_auto_index(UNI_EVENT = "ev584bfdd8822e0") MATCH(e)--(t)-[r*0..10]-(p) RETURN t,e,p,r;
-        $query = "MATCH(e:EVENT)--(t)-[r*0..10]-(p) WHERE (e.UNI_EVENT = {idEvent}) RETURN t,e,p,r;";
+        $query = "MATCH(e:EVENT)--(t)-[r*0..10]-(p) WHERE (e.UNI_EVENT = {idEvent}) RETURN t,e,p,r LIMIT 100;";
         $parameters = ['idEvent' => $idEvent];
 
         $result = $client->run($query, $parameters);
